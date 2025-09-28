@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh Lpr lFf">
     <!-- Header -->
     <q-header elevated>
       <q-toolbar>
@@ -16,10 +16,8 @@
     <!-- Left drawer -->
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label header>
-          Essential Links
-        </q-item-label>
-        <MenuComp v-for="link in menus" :key="link.title" v-bind="link" />
+        <!-- <q-item-label header> Essential Links</q-item-label> -->
+        <MenuLink v-for="link in menus" :key="link.title" v-bind="link" />
       </q-list>
     </q-drawer>
 
@@ -31,8 +29,13 @@
 
 <script setup>
 import { ref } from 'vue'
-import MenuComp from 'src/components/MenuComponent.vue'
+import { useAuthStore } from 'src/stores/auth'
+import MenuLink from 'src/components/MenuLink.vue'
+import { useRouter } from 'vue-router'
 
+
+const router = useRouter()
+const auth = useAuthStore()
 const menus = [
   {
     title: 'Dashboard',
@@ -43,17 +46,17 @@ const menus = [
   {
     title: 'Products',
     icon: 'add_business',
-    link: '/login'
+    link: '/products'
   },
   {
     title: 'Payments',
     icon: 'credit_card',
-    link: '/login'
+    link: '/payments'
   },
   {
     title: 'Customers',
     icon: 'groups',
-    link: '/login'
+    link: '/customers'
   },
   {
     title: 'Themes',
@@ -67,7 +70,23 @@ const menus = [
     icon: 'login',
     link: '/login'
   },
+  {
+    title: 'Logout',
+    caption: 'Exit',
+    icon: 'logout',
+    onClick: () => {
+      auth.logout()
+      router.push('/login')
+    }
+  },
 ]
+
+if (auth.isLogin()) {
+  menus.splice(5, 1) // remove login menu
+} else {
+  menus.splice(6, 1) // remove logout menu
+}
+
 
 const leftDrawerOpen = ref(false)
 
