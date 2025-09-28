@@ -68,6 +68,10 @@ export default defineConfig((/* ctx */) => {
           { server: false },
         ],
       ],
+
+      env: {
+        API_BASE_URL: process.env.API_BASE_URL || 'http://localhost:1337/api',
+      },
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#devserver
@@ -94,9 +98,8 @@ export default defineConfig((/* ctx */) => {
       plugins: ['LocalStorage', 'SessionStorage'],
     },
 
-    // animations: 'all', // --- includes all animations
     // https://v2.quasar.dev/options/animations
-    animations: [],
+    animations: 'all',
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#sourcefiles
     // sourceFiles: {

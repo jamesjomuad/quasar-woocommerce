@@ -6,6 +6,7 @@ const routes = [
       {
         path: '',
         component: () => import('pages/IndexPage.vue'),
+        meta: { requiresAuth: true },
       },
       {
         path: 'dashboard',

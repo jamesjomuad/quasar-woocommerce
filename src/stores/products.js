@@ -1,7 +1,7 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import axios from 'axios'
 
-const baseURL = 'https://orderly-purpose-cb5e4c55a4.strapiapp.com/api'
+const apiEndpoint = process.env.API_BASE_URL
 
 export const useProductsStore = defineStore('products', {
   state: () => ({
@@ -13,7 +13,7 @@ export const useProductsStore = defineStore('products', {
     async fetch() {
       this.loading = true
       try {
-        const { data } = await axios.get(`${baseURL}/products`)
+        const { data } = await axios.get(`${apiEndpoint}/products?populate=*`)
         // Strapi puts objects inside data[]
         this.products = data.data.map((item) => ({
           id: item.id,
@@ -26,15 +26,15 @@ export const useProductsStore = defineStore('products', {
       }
     },
     async createProduct(payload) {
-      await axios.post(`${baseURL}/products`, { data: payload })
+      await axios.post(`${apiEndpoint}/products`, { data: payload })
       await this.fetch()
     },
     async updateProduct(id, payload) {
-      await axios.put(`${baseURL}/products/${id}`, { data: payload })
+      await axios.put(`${apiEndpoint}/products/${id}`, { data: payload })
       await this.fetch()
     },
     async deleteProduct(id) {
-      await axios.delete(`${baseURL}/products/${id}`)
+      await axios.delete(`${apiEndpoint}/products/${id}`)
       this.products = this.products.filter((p) => p.id !== id)
     },
   },

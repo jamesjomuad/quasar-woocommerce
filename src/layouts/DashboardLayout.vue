@@ -14,9 +14,9 @@
     </q-header>
 
     <!-- Left drawer -->
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
+    <q-drawer show-if-above bordered :mini="leftDrawerOpen">
       <q-list>
-        <!-- <q-item-label header> Essential Links</q-item-label> -->
+        <q-item-label header>Menus</q-item-label>
         <MenuLink v-for="link in menus" :key="link.title" v-bind="link" />
       </q-list>
     </q-drawer>
