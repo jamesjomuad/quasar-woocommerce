@@ -5,7 +5,7 @@
       enter-active-class="animated zoomIn delay-2s"
       leave-active-class="animated fadeOut"
     >
-      <q-card class="w-96 p-6 rounded-2xl shadow-lg" style="width: 450px;" :class="{ 'animated shakeX': error }" @animationend="error = false">
+      <q-card class="w-96 p-6 rounded-2xl shadow-lg q-pa-md" style="width: 450px;" :class="{ 'animated shakeX': error }" @animationend="error = false">
         <q-card-section>
           <div class="text-h5 text-center text-weight-bold">Login</div>
         </q-card-section>
@@ -49,7 +49,7 @@ const handleLogin = async () => {
   loading.value = true
   try {
     await auth.login(form.value)
-    router.push('/dashboard')
+    router.push('/')
   } catch (err) {
     console.log('Login error:', err)
     error.value = true

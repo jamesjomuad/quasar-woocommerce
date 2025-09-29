@@ -1,18 +1,16 @@
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/DashboardLayout.vue'),
+    component: () => import('src/layouts/AdminLayout.vue'),
     children: [
+      // Dashboard
       {
         path: '',
-        component: () => import('pages/IndexPage.vue'),
-        meta: { requiresAuth: true },
-      },
-      {
-        path: 'dashboard',
         component: () => import('pages/Dashboard/IndexPage.vue'),
         meta: { requiresAuth: true },
       },
+
+      // Products
       {
         path: 'products',
         component: () => import('pages/Products/IndexPage.vue'),
@@ -23,11 +21,27 @@ const routes = [
         component: () => import('pages/Products/CreatePage.vue'),
         meta: { requiresAuth: true },
       },
+
+      // Subscriptions
+      {
+        path: 'subscriptions',
+        component: () => import('pages/Subscriptions/IndexPage.vue'),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: 'subscriptions/create',
+        component: () => import('pages/Subscriptions/CreatePage.vue'),
+        meta: { requiresAuth: true },
+      },
+
+      // Payments
       {
         path: 'payments',
         component: () => import('pages/Payments/IndexPage.vue'),
         meta: { requiresAuth: true },
       },
+
+      // Customers
       {
         path: 'customers',
         component: () => import('pages/Customers/IndexPage.vue'),

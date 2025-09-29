@@ -14,9 +14,8 @@
     </q-header>
 
     <!-- Left drawer -->
-    <q-drawer show-if-above bordered :mini="leftDrawerOpen">
+    <q-drawer v-model="showLeftDrawer" show-if-above bordered :mini="leftDrawerOpen">
       <q-list>
-        <q-item-label header>Menus</q-item-label>
         <MenuLink v-for="link in menus" :key="link.title" v-bind="link" />
       </q-list>
     </q-drawer>
@@ -36,17 +35,28 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const auth = useAuthStore()
+const showLeftDrawer = ref(true)
 const menus = [
   {
+    header: "Home"
+  },
+  {
     title: 'Dashboard',
-    caption: 'Home',
     icon: 'home',
     link: '/dashboard'
+  },
+  {
+    header: "Transactions"
   },
   {
     title: 'Products',
     icon: 'add_business',
     link: '/products'
+  },
+  {
+    title: 'Subscriptions',
+    icon: 'shopping_cart',
+    link: '/subscriptions'
   },
   {
     title: 'Payments',
@@ -57,6 +67,9 @@ const menus = [
     title: 'Customers',
     icon: 'groups',
     link: '/customers'
+  },
+  {
+    header: "Settings"
   },
   {
     title: 'Themes',
@@ -82,9 +95,17 @@ const menus = [
 ]
 
 if (auth.isLogin()) {
-  menus.splice(5, 1) // remove login menu
+  // remove login menu
+  const index = menus.findIndex(m => m.title === 'Login')
+  if (index !== -1) {
+    menus.splice(index, 1)
+  }
 } else {
-  menus.splice(6, 1) // remove logout menu
+  // remove logout menu
+  const index = menus.findIndex(m => m.title === 'Logout')
+  if (index !== -1) {
+    menus.splice(index, 1)
+  }
 }
 
 

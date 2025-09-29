@@ -5,7 +5,7 @@
         <div class="col">
           <div class="row q-col-gutter-md">
             <div class="col-auto">
-              <q-btn round dense color="primary" icon="add" to="bookings/create" />
+              <q-btn round dense color="primary" icon="add" to="products/create" />
             </div>
             <div class="col-auto">
               <q-btn round outline dense color="primary" icon="refresh" @click="onRefresh" />
@@ -63,7 +63,7 @@ const columns = [
   { name: 'sku', label: 'SKU', field: 'sku', align: "left" },
   { name: 'price', label: 'Price', field: 'price', align: "left" },
   { name: 'stock', label: 'Stock', field: 'stock', align: "left" },
-   { name: 'created_at', label: 'Created At', field: 'createdAt', align: "right", }
+  { name: 'created_at', label: 'Created At', field: 'createdAt', align: "right", }
   // { name: 'actions', label: 'Actions', field: 'actions', align: "left" }
 ]
 

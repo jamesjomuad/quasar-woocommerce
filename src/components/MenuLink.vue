@@ -1,5 +1,6 @@
 <template>
-  <q-item clickable :to="props.link || undefined" @click="handleClick">
+  <q-item-label v-if="props.header" header>{{props.header}}</q-item-label>
+  <q-item v-else clickable :to="props.link || undefined" @click="handleClick">
     <q-item-section v-if="props.icon" avatar>
       <q-icon :name="props.icon" />
     </q-item-section>
@@ -13,7 +14,8 @@
 
 <script setup>
 const props = defineProps({
-  title: { type: String, required: true },
+  header: { type: String, required: false },
+  title: { type: String, required: false },
   caption: { type: String, default: '' },
   link: { type: [String, null], default: null },
   icon: { type: String, default: '' },

@@ -95,7 +95,7 @@ export default defineConfig((/* ctx */) => {
       // directives: [],
 
       // Quasar plugins
-      plugins: ['LocalStorage', 'SessionStorage'],
+      plugins: ['LocalStorage', 'SessionStorage', 'Notify', 'Dialog', 'Loading'],
     },
 
     // https://v2.quasar.dev/options/animations
