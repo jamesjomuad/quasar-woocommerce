@@ -3,9 +3,14 @@ const routes = [
     path: '/',
     component: () => import('src/layouts/AdminLayout.vue'),
     children: [
-      // Dashboard
       {
         path: '',
+        redirect: '/dashboard' // 👈 redirects immediately
+      },
+
+      // Dashboard
+      {
+        path: 'dashboard',
         component: () => import('pages/Dashboard/IndexPage.vue'),
         meta: { requiresAuth: true },
       },
@@ -38,6 +43,11 @@ const routes = [
       {
         path: 'payments',
         component: () => import('pages/Payments/IndexPage.vue'),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: 'payments/create',
+        component: () => import('pages/Payments/CreatePage.vue'),
         meta: { requiresAuth: true },
       },
 

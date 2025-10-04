@@ -2,6 +2,13 @@
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file
 
 import { defineConfig } from '#q-app/wrappers'
+import * as dotenv from 'dotenv'
+
+if (process.env.NODE_ENV === 'production') {
+  dotenv.config({ path: '.env.production' })
+} else {
+  dotenv.config({ path: '.env' })
+}
 
 export default defineConfig((/* ctx */) => {
   return {
@@ -70,7 +77,7 @@ export default defineConfig((/* ctx */) => {
       ],
 
       env: {
-        API_BASE_URL: process.env.API_BASE_URL || 'http://localhost:1337/api',
+        API_BASE_URL: process.env.API_BASE_URL,
       },
     },
 

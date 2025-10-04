@@ -1,5 +1,5 @@
 export default {
-    name: "Real Response",
+    name: "First Aid",
     colors: {
         'primary': "#DA1F33",
         'secondary': "#faf5f5ff",

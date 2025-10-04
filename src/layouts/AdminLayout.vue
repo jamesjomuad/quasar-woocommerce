@@ -9,12 +9,14 @@
           Quasar App
         </q-toolbar-title>
 
+        <q-badge rounded color="white" class="text-red q-mr-md" :label="$q.screen.name" />
+
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
     <!-- Left drawer -->
-    <q-drawer v-model="showLeftDrawer" show-if-above bordered :mini="leftDrawerOpen">
+    <q-drawer v-model="showLeftDrawer" show-if-above bordered :mini="leftDrawerOpen" :width="230">
       <q-list>
         <MenuLink v-for="link in menus" :key="link.title" v-bind="link" />
       </q-list>
@@ -29,10 +31,12 @@
 <script setup>
 import { ref } from 'vue'
 import { useAuthStore } from 'src/stores/auth'
-import MenuLink from 'src/components/MenuLink.vue'
 import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
+import MenuLink from 'src/components/MenuLink.vue'
 
 
+const $q = useQuasar()
 const router = useRouter()
 const auth = useAuthStore()
 const showLeftDrawer = ref(true)
@@ -78,6 +82,14 @@ const menus = [
     link: '/themes'
   },
   {
+    header: "Authentication"
+  },
+  {
+    title: 'Account',
+    icon: 'account_circle',
+    link: '/account'
+  },
+  {
     title: 'Login',
     caption: 'Authentication',
     icon: 'login',
@@ -108,10 +120,10 @@ if (auth.isLogin()) {
   }
 }
 
-
 const leftDrawerOpen = ref(false)
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
+  showLeftDrawer.value = true
 }
 </script>

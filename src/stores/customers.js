@@ -1,7 +1,7 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import axios from 'axios'
 
-const apiEndpoint = process.env.API_BASE_URL
+const apiEndpoint = `${process.env.VITE_STRAPI_URL}/api`
 
 export const useCustomersStore = defineStore('customers', {
   state: () => ({
@@ -10,7 +10,6 @@ export const useCustomersStore = defineStore('customers', {
     error: null,
   }),
   actions: {
-
     async fetch() {
       this.loading = true
       try {
@@ -26,8 +25,7 @@ export const useCustomersStore = defineStore('customers', {
         this.loading = false
       }
     },
-
-  } // end eactions
+  }, // end eactions
 })
 
 if (import.meta.hot) {

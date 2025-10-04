@@ -3,7 +3,7 @@
     <transition
       appear
       enter-active-class="animated zoomIn delay-2s"
-      leave-active-class="animated fadeOut"
+      leave-active-class="animated zoomOut"
     >
       <q-card class="w-96 p-6 rounded-2xl shadow-lg q-pa-md" style="width: 450px;" :class="{ 'animated shakeX': error }" @animationend="error = false">
         <q-card-section>

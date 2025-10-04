@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { LocalStorage } from 'quasar'
 import axios from 'axios'
 
-const apiEndpoint = process.env.API_BASE_URL
+const apiEndpoint = `${process.env.VITE_STRAPI_URL}/api`
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({

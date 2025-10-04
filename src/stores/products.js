@@ -1,7 +1,7 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import axios from 'axios'
 
-const apiEndpoint = process.env.API_BASE_URL
+const apiEndpoint = `${process.env.VITE_STRAPI_URL}/api`
 
 export const useProductsStore = defineStore('products', {
   state: () => ({

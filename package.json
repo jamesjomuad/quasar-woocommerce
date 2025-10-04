@@ -13,7 +13,9 @@
     "dev": "quasar dev",
     "build": "quasar build",
     "electron": "quasar dev -m electron",
-    "postinstall": "quasar prepare"
+    "postinstall": "quasar prepare",
+    "bSpa": "quasar build -m spa --env-file .env.production",
+    "serve": "serve ./dist/spa"
   },
   "dependencies": {
     "@quasar/extras": "^1.17.0",
