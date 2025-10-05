@@ -1,6 +1,14 @@
 <template>
   <q-page padding>
-    <api-table title="Products" :rows="products" :columns="columns" :loading="loading" @request="fetch">
+    <api-table
+      title="Products"
+      :rows="products"
+      :columns="columns"
+      :loading="loading"
+      @request="fetch"
+      @row-click="onRow"
+    >
+      <!-- Header -->
       <template v-slot:top-right="props">
         <div class="col">
           <div class="row q-col-gutter-md">
@@ -21,8 +29,9 @@
         </div>
       </template>
 
+      <!-- Thumbnail -->
       <template #cell-image="{ row }">
-        <q-img :src="strapiUrl + row.image?.url" style="width: 50px; height: 50px;" />
+        <q-img :src="row.image?.formats?.small?.url" style="width: 50px; height: 50px;" />
       </template>
 
       <template #cell-price="{ row }">
@@ -42,18 +51,18 @@
 </template>
 
 <script setup>
-defineOptions({
-  name: 'ProductsIndexPage'
-})
-
 import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
 import { useProductsStore } from 'src/stores/products'
 import ApiTable from 'src/components/ApiTable.vue'
 import moment from 'moment'
 
+defineOptions({
+  name: 'ProductsIndexPage'
+})
 
-const strapiUrl = import.meta.env.VITE_STRAPI_URL
+const router = useRouter()
 const store = useProductsStore()
 const { products, loading } = storeToRefs(store)
 const columns = [
@@ -64,7 +73,6 @@ const columns = [
   { name: 'price', label: 'Price', field: 'price', align: "left" },
   { name: 'stock', label: 'Stock', field: 'stock', align: "left" },
   { name: 'created_at', label: 'Created At', field: 'createdAt', align: "right", }
-  // { name: 'actions', label: 'Actions', field: 'actions', align: "left" }
 ]
 
 
@@ -75,7 +83,13 @@ onMounted(() => {
 function fetch(pagination) {
   store.fetch(pagination)
 }
+
 function onRefresh() {
   store.fetch()
+}
+
+function onRow(e,v){
+  console.log('onRow', v)
+  router.push(`/products/${v.documentId}`)
 }
 </script>

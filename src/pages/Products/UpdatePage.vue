@@ -1,8 +1,8 @@
 <template>
   <q-page padding>
-    <q-card>
+    <q-card flat bordered>
       <q-card-section>
-        <div class="text-h6">New Product</div>
+        <div class="text-h6">Update Product</div>
       </q-card-section>
       <q-separator />
       <q-card-section>
@@ -89,19 +89,15 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
+import { useRoute } from 'vue-router'
 import { useProductsStore } from 'src/stores/products'
 
-defineOptions({
-  name: 'ProductsCreatePage'
-})
 
 const $q = useQuasar()
+const route = useRoute()
 const store = useProductsStore()
-const router = useRouter()
-
 const form = ref({
   name: '',
   description: '',
@@ -112,31 +108,22 @@ const form = ref({
   active: true,
 })
 
+onMounted(async ()=>{
+  let data = await store.get(route.params.id)
+  console.log( data )
+})
+
 async function onSubmit() {
   try {
     const { data } = await store.create(form.value, $q)
     if( data?.id ){
       store.fetch()
-      router.push('/products')
     }
   } catch (error) {
     console.log(error)
   } finally {
     // always hide loading overlay
     $q.loading.hide()
-  }
-}
-
-// eslint-disable-next-line
-function resetForm() {
-  form.value = {
-    name: '',
-    description: '',
-    sku: '',
-    price: null,
-    stock: null,
-    taxable: false,
-    active: true,
   }
 }
 </script>

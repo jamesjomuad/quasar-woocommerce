@@ -1,6 +1,6 @@
 <template>
-  <q-table :title="title" :rows="rows" :columns="columns" row-key="id" :loading="loading" :pagination="pagination" flat
-    bordered @request="onRequest">
+  <q-table v-bind="$attrs" v-on="$attrs" :title="title" :rows="rows" :columns="columns" row-key="id" :loading="loading" :pagination="pagination" flat
+    bordered>
     <template v-slot:top-right="props">
       <slot name="top-right" v-bind="props" />
     </template>
@@ -26,21 +26,17 @@
 <script setup>
 import { ref } from 'vue'
 
+defineOptions({ inheritAttrs: false })
+
 defineProps({
   title: { type: String, default: 'Data' },
-  rows: { type: Array, required: true },     // 👈 Provided by store
+  rows: { type: Array, required: true },
   columns: { type: Array, required: true },
-  loading: { type: Boolean, default: false } // 👈 Store can provide this too
+  loading: { type: Boolean, default: false },
 })
-const emit = defineEmits(['request', 'refresh'])
 
 const pagination = ref({
   page: 1,
   rowsPerPage: 10
 })
-
-function onRequest(props) {
-  // you can emit this to parent so store can re-fetch
-  emit('request', props)
-}
 </script>

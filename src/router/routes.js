@@ -26,6 +26,11 @@ const routes = [
         component: () => import('pages/Products/CreatePage.vue'),
         meta: { requiresAuth: true },
       },
+      {
+        path: 'products/:id',
+        component: () => import('pages/Products/UpdatePage.vue'),
+        meta: { requiresAuth: true },
+      },
 
       // Subscriptions
       {

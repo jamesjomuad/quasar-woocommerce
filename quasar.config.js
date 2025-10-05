@@ -77,7 +77,7 @@ export default defineConfig((/* ctx */) => {
       ],
 
       env: {
-        API_BASE_URL: process.env.API_BASE_URL,
+        API_BASE_URL: process.env.VITE_STRAPI_URL,
       },
     },
 
@@ -192,6 +192,7 @@ export default defineConfig((/* ctx */) => {
         // protocol: 'myapp://path',
         // Windows only
         // win32metadata: { ... }
+        // platform: 'win32',
       },
 
       builder: {

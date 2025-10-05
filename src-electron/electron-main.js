@@ -32,6 +32,10 @@ async function createWindow() {
     },
   })
 
+  // Maximize on launch
+  mainWindow.maximize()
+  mainWindow.removeMenu()
+
   if (process.env.DEV) {
     await mainWindow.loadURL(process.env.APP_URL)
   } else {
@@ -52,13 +56,28 @@ async function createWindow() {
     mainWindow = null
   })
 
+  const isDev = !app.isPackaged
+
   // Add CSP header
   mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
+    const devCSP = `
+      default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: filesystem:
+      https://blessed-rainbow-1772ab4251.strapiapp.com;
+    `
+
+    const prodCSP = `
+      default-src 'self' data: blob:
+      https://blessed-rainbow-1772ab4251.strapiapp.com;
+      script-src 'self';
+      style-src 'self' 'unsafe-inline';
+      connect-src 'self' https://blessed-rainbow-1772ab4251.strapiapp.com;
+      img-src 'self' data: blob: https://blessed-rainbow-1772ab4251.strapiapp.com;
+    `
     callback({
       responseHeaders: {
         ...details.responseHeaders,
         'Content-Security-Policy': [
-          "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:",
+          isDev ? devCSP.replace(/\s+/g, ' ') : prodCSP.replace(/\s+/g, ' '),
         ],
       },
     })
