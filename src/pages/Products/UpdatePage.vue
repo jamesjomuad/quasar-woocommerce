@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <q-page padding class="bg-surface">
     <q-card flat bordered>
       <q-card-section>
         <div class="text-h6">Update Product</div>

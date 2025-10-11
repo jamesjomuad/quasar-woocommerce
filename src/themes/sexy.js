@@ -11,7 +11,7 @@ export default {
         'warning': "#fd6a9bff",
         'surface': "#ffe4ec",
         'text': "#5a3e36",
-        'light': "#be929fff",
+        'light': "#fc8cadff",
         'color-dark': "#7a464b",
         'color-light': "#f8848eff",
         'dark-page': "#8b3550",

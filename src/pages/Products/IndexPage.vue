@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <q-page padding class="bg-surface">
     <api-table
       title="Products"
       :rows="products"

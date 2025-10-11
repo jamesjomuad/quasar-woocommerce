@@ -21,7 +21,7 @@ export default defineConfig((/* ctx */) => {
     boot: ['axios', 'init-auth', 'auth-guard'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#css
-    css: ['app.sass'],
+    css: ['app.sass', 'app.css'],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [

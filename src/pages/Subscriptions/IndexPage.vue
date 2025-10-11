@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <q-page padding class="bg-surface">
     <api-table title="Subscriptions" :rows="subscriptions" :columns="columns" :loading="loading" @request="fetch">
       <!-- Header -->
       <template v-slot:top-right="props">
@@ -47,7 +47,7 @@
       </template>
 
       <template #cell-user="{ row }">
-        {{ row.users_permissions_user.firstName }} {{ row.users_permissions_user.lastName }}
+        {{ row.users_permissions_user.first_name }} {{ row.users_permissions_user.last_name }}
       </template>
 
       <template #cell-username="{ row }">

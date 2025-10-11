@@ -11,7 +11,7 @@ export default {
         negative: '#ff5555',
         warning: '#f1fa8c',
         light: '#c1e3ff',
-        surface: '#528cff59',
+        surface: '#3860b159',
         'color-dark': '#26343c',
         'color-light': '#ffffff',
         'dark-page': '#30335f',

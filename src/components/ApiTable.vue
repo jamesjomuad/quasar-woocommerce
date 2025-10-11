@@ -40,3 +40,7 @@ const pagination = ref({
   rowsPerPage: 10
 })
 </script>
+
+<style scoped>
+.q-table__card{ background-color: rgb(255 255 255 / 40%); }
+</style>

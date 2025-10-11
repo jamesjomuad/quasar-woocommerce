@@ -9,7 +9,7 @@ export default {
         negative: "#D64545",       // Warm brick red
         info: "#8C6E58",           // Mocha brown
         warning: "#F2A900",        // Golden roast
-        surface: "#F8F8F6",        // Creamy white base
+        surface: "#c2a084ff",        // Creamy white base
         "color-dark": "#194e35",   // Muted jade
         "color-light": "#4CAF93",  // Soft tropical green
         'dark-page': '#18211D',    // Dark roast coffee

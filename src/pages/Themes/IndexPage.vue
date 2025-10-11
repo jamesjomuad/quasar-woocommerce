@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <q-page padding class="bg-surface">
     <div class="row q-col-gutter-md q-mb-md">
       <div class="col-md-2">
         <q-card class="bg-primary text-white">
@@ -39,7 +39,7 @@
       <div class="col-md-2">
         <q-card class="bg-surface text-white">
           <q-card-section>
-            <div class="text-h5">Surface</div>
+            <div class="text-h5 text-dark">Surface</div>
           </q-card-section>
         </q-card>
       </div>
@@ -84,6 +84,7 @@
                 color: theme.colors.dark,
                 border: '1px solid '+theme.colors['primary']
             }"
+            :class="{'bg-grey-4':theme.active}"
         >
             <q-card-section class="q-pa-sm row justify-between">
                 <div class="text-h6" :class="{'text-white':$q.dark.isActive}" style="font-size:15px;">

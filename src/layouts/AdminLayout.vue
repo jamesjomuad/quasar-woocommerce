@@ -16,7 +16,7 @@
     </q-header>
 
     <!-- Left drawer -->
-    <q-drawer v-model="showLeftDrawer" show-if-above bordered :mini="leftDrawerOpen" :width="230">
+    <q-drawer v-model="showLeftDrawer" show-if-above bordered :mini="leftDrawerOpen" :width="230" class="bg-light">
       <q-list>
         <MenuLink v-for="link in menus" :key="link.title" v-bind="link" />
       </q-list>
@@ -33,10 +33,12 @@ import { ref } from 'vue'
 import { useAuthStore } from 'src/stores/auth'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
+import { useTheme } from 'src/composables/theme'
 import MenuLink from 'src/components/MenuLink.vue'
 
 
 const $q = useQuasar()
+const $theme = useTheme()
 const router = useRouter()
 const auth = useAuthStore()
 const showLeftDrawer = ref(true)
@@ -106,6 +108,8 @@ const menus = [
   },
 ]
 
+$theme.init()
+
 if (auth.isLogin()) {
   // remove login menu
   const index = menus.findIndex(m => m.title === 'Login')
@@ -126,4 +130,5 @@ function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
   showLeftDrawer.value = true
 }
+
 </script>
