@@ -1,13 +1,14 @@
 <template>
   <q-page padding class="bg-surface">
-    <q-card flat bordered>
+    <q-card flat bordered class="card-update">
       <q-card-section>
         <div class="text-h6">Update Product</div>
       </q-card-section>
       <q-separator />
       <q-card-section>
-        <q-form @submit.prevent="onSubmit" class="q-gutter-md">
+        <q-form class="q-gutter-md">
           <div class="row q-col-gutter-md q-ma-sm">
+            <!-- name -->
             <div class="col-12 col-md-6">
               <q-input
                 v-model="form.name"
@@ -15,9 +16,11 @@
                 outlined
                 dense
                 :rules="[val => !!val || 'Name is required']"
+                name="name"
               />
             </div>
 
+            <!-- sku -->
             <div class="col-12 col-md-6">
               <q-input
                 v-model="form.sku"
@@ -25,9 +28,11 @@
                 outlined
                 dense
                 :rules="[val => !!val || 'SKU is required']"
+                name="sku"
               />
             </div>
 
+            <!-- description -->
             <div class="col-12">
               <q-input
                 v-model="form.description"
@@ -35,9 +40,26 @@
                 type="textarea"
                 outlined
                 dense
+                name="description"
               />
             </div>
 
+
+            <!-- cost -->
+            <div class="col-12 col-md-6">
+              <q-input
+                v-model.number="form.cost"
+                label="Cost"
+                type="number"
+                outlined
+                dense
+                :rules="[val => val > 0 || 'Enter valid price']"
+                prefix="₱"
+                name="cost"
+              />
+            </div>
+
+            <!-- price -->
             <div class="col-12 col-md-6">
               <q-input
                 v-model.number="form.price"
@@ -47,9 +69,11 @@
                 dense
                 :rules="[val => val > 0 || 'Enter valid price']"
                 prefix="₱"
+                name="price"
               />
             </div>
 
+            <!-- stock -->
             <div class="col-12 col-md-6">
               <q-input
                 v-model.number="form.stock"
@@ -58,9 +82,11 @@
                 outlined
                 dense
                 :rules="[val => val >= 0 || 'Stock must be zero or more']"
+                name="stock"
               />
             </div>
 
+            <!-- taxable -->
             <div class="col-12 col-md-6">
               <q-toggle
                 v-model="form.taxable"
@@ -69,6 +95,7 @@
               />
             </div>
 
+            <!-- active -->
             <div class="col-12 col-md-6">
               <q-toggle
                 v-model="form.active"
@@ -77,11 +104,6 @@
               />
             </div>
           </div>
-          <div class="q-mt-md row">
-            <q-space />
-            <q-btn type="submit" label="Add" color="primary" />
-            <!-- <q-btn flat label="Reset" color="grey" @click="resetForm" /> -->
-          </div>
         </q-form>
       </q-card-section>
     </q-card>
@@ -89,8 +111,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useQuasar } from 'quasar'
+import { ref, onMounted, watch } from 'vue'
+import { useQuasar, debounce } from 'quasar'
 import { useRoute } from 'vue-router'
 import { useProductsStore } from 'src/stores/products'
 
@@ -98,6 +120,7 @@ import { useProductsStore } from 'src/stores/products'
 const $q = useQuasar()
 const route = useRoute()
 const store = useProductsStore()
+const hasMounted = ref(false)
 const form = ref({
   name: '',
   description: '',
@@ -105,25 +128,45 @@ const form = ref({
   price: '',
   stock: '',
   taxable: false,
-  active: true,
+  active: false,
+  cost: '',
 })
+
+
 
 onMounted(async ()=>{
-  let data = await store.get(route.params.id)
-  console.log( data )
+  $q.loading.show()
+  let { data } = await store.get(route.params.id)
+
+  form.value.name = data.name
+  form.value.sku = data.sku
+  form.value.description = data.description
+  form.value.cost = data.cost
+  form.value.price = data.price
+  form.value.stock = data.stock
+  form.value.taxable = data.taxable
+  form.value.active = data.active
+
+  $q.loading.hide()
+  hasMounted.value = true
 })
 
-async function onSubmit() {
+// Watch for changes
+watch(
+  form,
+  () => {
+    if (!hasMounted.value) return
+    debounce(saveForm, 1000)()
+  },
+  { deep: true }
+)
+
+const saveForm = async () => {
   try {
-    const { data } = await store.create(form.value, $q)
-    if( data?.id ){
-      store.fetch()
-    }
-  } catch (error) {
-    console.log(error)
-  } finally {
-    // always hide loading overlay
-    $q.loading.hide()
+    let { data } = await store.update(route.params.id, form.value)
+    console.log('Auto saving...', data)
+  } catch (err) {
+    console.error('Save failed:', err)
   }
 }
 </script>

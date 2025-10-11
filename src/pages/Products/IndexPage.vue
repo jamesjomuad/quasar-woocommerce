@@ -34,6 +34,11 @@
         <q-img :src="row.image?.formats?.small?.url" style="width: 50px; height: 50px;" />
       </template>
 
+      <!-- name -->
+      <template #cell-name="{ row }">
+        <p class="text-subtitle2">{{ row?.name }}</p>
+      </template>
+
       <template #cell-price="{ row }">
         ₱{{ row.price }}
       </template>
@@ -89,7 +94,6 @@ function onRefresh() {
 }
 
 function onRow(e,v){
-  console.log('onRow', v)
   router.push(`/products/${v.documentId}`)
 }
 </script>

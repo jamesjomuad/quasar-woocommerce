@@ -56,8 +56,7 @@ export const useProductsStore = defineStore('products', {
       }
     },
     async update(id, payload) {
-      await axios.put(`${apiEndpoint}/products/${id}`, { data: payload })
-      await this.fetch()
+      return await axios.put(`${apiEndpoint}/products/${id}`, { data: payload })
     },
     async delete(id) {
       await axios.delete(`${apiEndpoint}/products/${id}`)

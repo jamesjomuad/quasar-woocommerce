@@ -1,2 +1,3 @@
 .bg-surface { background: var(--q-surface); color: var(--text-color); }
 .bg-light { background: var(--q-light); color: var(--text-color); }
+.card-update{ background-color: rgb(255 255 255 / 70%); }

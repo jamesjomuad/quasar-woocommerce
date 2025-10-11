@@ -42,5 +42,5 @@ const pagination = ref({
 </script>
 
 <style scoped>
-.q-table__card{ background-color: rgb(255 255 255 / 40%); }
+.q-table__card{ background-color: rgb(255 255 255 / 60%); }
 </style>
