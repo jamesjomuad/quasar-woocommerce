@@ -11,7 +11,8 @@
 
         <q-badge rounded color="white" class="text-red q-mr-md" :label="$q.screen.name" />
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div class="q-mr-md">v{{ $q.version }}</div>
+        <div>{{ $auth.user?.email }} ({{ $auth.user?.username }})</div>
       </q-toolbar>
     </q-header>
 
@@ -40,7 +41,7 @@ import MenuLink from 'src/components/MenuLink.vue'
 const $q = useQuasar()
 const $theme = useTheme()
 const router = useRouter()
-const auth = useAuthStore()
+const $auth = useAuthStore()
 const showLeftDrawer = ref(true)
 const menus = [
   {
@@ -102,7 +103,7 @@ const menus = [
     caption: 'Exit',
     icon: 'logout',
     onClick: () => {
-      auth.logout()
+      $auth.logout()
       router.push('/login')
     }
   },
@@ -110,7 +111,7 @@ const menus = [
 
 $theme.init()
 
-if (auth.isLogin()) {
+if ($auth.isLogin()) {
   // remove login menu
   const index = menus.findIndex(m => m.title === 'Login')
   if (index !== -1) {

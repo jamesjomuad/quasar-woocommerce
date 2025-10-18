@@ -30,8 +30,8 @@
       </template>
 
       <!-- Thumbnail -->
-      <template #cell-image="{ row }">
-        <q-img :src="row.image?.formats?.small?.url" style="width: 50px; height: 50px;" />
+      <template #cell-thumbnail="{ row }">
+        <q-img :src="appUrl+row.thumbnail?.formats?.medium?.url" style="width: 50px; height: 50px;" />
       </template>
 
       <!-- name -->
@@ -47,9 +47,12 @@
         {{ moment(row.createdAt).fromNow() }}
       </template>
 
-      <template #actions="{ row }">
-        <q-btn flat icon="edit" color="primary" @click="edit(row)" />
-        <q-btn flat icon="delete" color="negative" @click="remove(row.id)" />
+      <template #cell-actions>
+        <user-finder @selected="onUserSelected">
+          <template #button="{ open }">
+            <q-btn rounded label="Subscribe" icon="cast" color="primary" @click="open" />
+          </template>
+        </user-finder>
       </template>
     </api-table>
   </q-page>
@@ -61,23 +64,26 @@ import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import { useProductsStore } from 'src/stores/products'
 import ApiTable from 'src/components/ApiTable.vue'
+import UserFinder from 'src/components/UserFinder.vue'
 import moment from 'moment'
 
 defineOptions({
   name: 'ProductsIndexPage'
 })
 
+const appUrl = `${process.env.VITE_STRAPI_URL}`
 const router = useRouter()
 const store = useProductsStore()
 const { products, loading } = storeToRefs(store)
 const columns = [
   { name: 'id', label: 'ID', field: 'id', align: "left" },
-  { name: 'image', label: 'Thumbnail', field: 'image', align: "left" },
+  { name: 'thumbnail', label: 'Thumbnail', field: 'thumbnail', align: "left" },
   { name: 'name', label: 'Name', field: 'name', align: "left" },
   { name: 'sku', label: 'SKU', field: 'sku', align: "left" },
   { name: 'price', label: 'Price', field: 'price', align: "left" },
   { name: 'stock', label: 'Stock', field: 'stock', align: "left" },
-  { name: 'created_at', label: 'Created At', field: 'createdAt', align: "right", }
+  { name: 'created_at', label: 'Created At', field: 'createdAt', align: "right", },
+  { name: 'actions', label: 'Action', align: "right", }
 ]
 
 
@@ -94,6 +100,11 @@ function onRefresh() {
 }
 
 function onRow(e,v){
+  if( e.target.tagName.toLowerCase() == 'td' )
   router.push(`/products/${v.documentId}`)
+}
+
+function onUserSelected(user){
+  console.log(user)
 }
 </script>

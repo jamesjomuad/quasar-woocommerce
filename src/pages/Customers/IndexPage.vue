@@ -44,8 +44,8 @@ const store = useCustomersStore()
 const { customers, loading } = storeToRefs(store)
 const columns = [
   { name: 'ID', label: 'ID', field: 'id', align: "left", },
-  { name: 'first_name', label: 'First Name', field: 'firstName', align: "left", },
-  { name: 'last_name', label: 'Last Name', field: 'lastName', align: "left", },
+  { name: 'first_name', label: 'First Name', field: 'first_name', align: "left", },
+  { name: 'last_name', label: 'Last Name', field: 'last_name', align: "left", },
   { name: 'email', label: 'Email', field: 'email', align: "left", },
   { name: 'phone', label: 'Phone', field: 'phone', align: "left", },
   { name: 'created_at', label: 'Created At', field: 'createdAt', align: "right", }
