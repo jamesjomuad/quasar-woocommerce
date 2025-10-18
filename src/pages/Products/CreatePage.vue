@@ -1,7 +1,6 @@
 <template>
   <q-page padding class="bg-surface">
     <q-form @submit="saveForm">
-
       <q-card flat bordered>
         <q-card-section>
           <div class="text-h6">New Product</div>
@@ -107,23 +106,13 @@
         </q-card-section>
       </q-card>
 
-       <!-- Action Buttons -->
-        <q-page-sticky expand position="bottom" class="q-pa-none">
-            <q-toolbar
-                dense
-                class="shadow-2"
-                style="box-shadow: 0px 8px 20px;"
-                :class="{
-                    'bg-white text-dark' : !$q.dark.isActive,
-                    'bg-dark text-white' : $q.dark.isActive
-                }"
-            >
-                <q-space />
-                <div class="col-auto">
-                    <q-btn label="Create" type="submit" color="primary" class="q-ml-auto"/>
-                </div>
-            </q-toolbar>
-        </q-page-sticky>
+      <!-- Action Buttons -->
+      <tool-bar>
+        <q-space />
+        <div class="col-auto">
+          <q-btn label="Create" type="submit" color="primary" class="q-ml-auto"/>
+        </div>
+      </tool-bar>
     </q-form>
   </q-page>
 </template>
@@ -132,6 +121,8 @@
 import { ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
 import { useProductsStore } from 'src/stores/products'
+import ToolBar from 'components/ToolBar.vue'
+
 
 
 const $q = useQuasar()
