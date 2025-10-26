@@ -9,7 +9,7 @@ export default {
         'negative': '#ff7c70ff',
         'info': '#ff85a1',
         'warning': '#ffb347',
-        'surface': '#ffdce6',
+        'surface': '#f8dcffff',
         'text': '#5a3e36',
         'light': '#d6c2eb',
         'color-dark': '#f5f0fa',

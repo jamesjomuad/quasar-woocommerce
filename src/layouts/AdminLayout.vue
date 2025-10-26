@@ -6,13 +6,22 @@
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
-          Quasar App
+          {{ appStore.title }}
         </q-toolbar-title>
 
         <q-badge rounded color="white" class="text-red q-mr-md" :label="$q.screen.name" />
 
         <div class="q-mr-md">v{{ $q.version }}</div>
         <div>{{ $auth.user?.email }} ({{ $auth.user?.username }})</div>
+
+        <pre>{{ appStore.layout }}</pre>
+        <q-toggle
+          v-model="appStore.isDrawer"
+          checked-icon="dashboard"
+          unchecked-icon="grid_view"
+          color="dark"
+          @update:model-value="appStore.toggleLayout"
+        />
       </q-toolbar>
     </q-header>
 
@@ -35,11 +44,13 @@ import { useAuthStore } from 'src/stores/auth'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { useTheme } from 'src/composables/theme'
+import { useAppStore } from 'src/stores/appStore'
 import MenuLink from 'src/components/MenuLink.vue'
 
 
 const $q = useQuasar()
 const $theme = useTheme()
+const appStore = useAppStore()
 const router = useRouter()
 const $auth = useAuthStore()
 const showLeftDrawer = ref(true)

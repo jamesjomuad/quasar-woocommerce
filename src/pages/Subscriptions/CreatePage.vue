@@ -9,11 +9,11 @@
         <q-card-section>
             <div class="row q-col-gutter-md q-ma-sm">
               <!-- name -->
-              <div class="col-12 col-md-6">
+              <div class="col-12 col-md-12">
                 <q-input
                   outlined
-                  dense
                   v-model="form.name"
+                  readonly
                   label="Name"
                   name="name"
                   :rules="[val => !!val || 'Name is required']"
@@ -21,7 +21,7 @@
               </div>
               <!-- product -->
               <div class="col-12 col-md-6">
-                <q-input outlined dense v-model="form.product" class="q-ml-md" readonly>
+                <q-input outlined v-model="product.name" label="Product" readonly>
                   <template v-slot:after>
                     <product-finder @selected="onProductSelected">
                       <template #button="{ open }">
@@ -31,7 +31,22 @@
                   </template>
                 </q-input>
               </div>
+              <!-- user -->
+              <div class="col-12 col-md-6">
+                <q-input outlined v-model="customer.name" label="Customer" readonly>
+                  <template v-slot:after>
+                    <user-finder @selected="onUserSelected">
+                      <template #button="{ open }">
+                        <q-btn rounded label="Customer" icon="add" color="primary" @click="open" />
+                      </template>
+                    </user-finder>
+                  </template>
+                </q-input>
+              </div>
             </div>
+        </q-card-section>
+        <q-card-section>
+          <pre>{{ customer }}</pre>
         </q-card-section>
       </q-card>
 
@@ -47,17 +62,24 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useQuasar } from 'quasar'
 import { useSubscriptionStore } from 'src/stores/subscription'
 import ToolBar from 'components/ToolBar.vue'
+import UserFinder from 'src/components/UserFinder.vue'
 import ProductFinder from 'src/components/ProductFinder.vue'
 
 
 const $q = useQuasar()
 const store = useSubscriptionStore()
+const product = ref({
+  name: ''
+})
+const customer = ref({
+  name: ''
+})
 const form = ref({
-  name: "Premium Fiber Plan",
+  name: "",
   product: null,
   start_date: "2025-10-17T00:00:00.000Z",
   end_date: "2026-10-17T00:00:00.000Z",
@@ -75,6 +97,22 @@ onMounted(async ()=>{
   $q.loading.hide()
 })
 
+// 🧠 Watch both product and user at once
+watch(
+  [() => product.value.name, () => customer.value.name],
+  ([newProduct, newUser]) => {
+    if (newProduct && newUser) {
+      form.value.name = `${newProduct} - ${newUser}`
+    } else if (newProduct) {
+      form.value.name = newProduct
+    } else if (newUser) {
+      form.value.name = newUser
+    } else {
+      form.value.name = ""
+    }
+  }
+)
+
 const saveForm = async () => {
   try {
     let { data } = await store.create(form.value, $q)
@@ -84,8 +122,15 @@ const saveForm = async () => {
   }
 }
 
-const onProductSelected = (product) => {
-  console.log(product)
+const onProductSelected = (v) => {
+  product.value = v
+  form.value.product = v.id
+}
+
+const onUserSelected = (v) => {
+  customer.value = v
+  customer.value.name = `${v.first_name} ${v.last_name} (${v.email})`
+  form.value.user = v.id
 }
 
 
