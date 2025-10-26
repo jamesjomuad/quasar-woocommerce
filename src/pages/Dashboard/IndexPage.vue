@@ -44,8 +44,8 @@
 <script setup>
 import { onMounted } from 'vue'
 import { useAuthStore } from 'src/stores/auth'
-import moment from 'moment'
 import { useProductsStore } from 'src/stores/products'
+import moment from 'moment'
 
 const auth = useAuthStore()
 const productStore = useProductsStore()

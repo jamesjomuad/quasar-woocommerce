@@ -14,7 +14,6 @@
         <div class="q-mr-md">v{{ $q.version }}</div>
         <div>{{ $auth.user?.email }} ({{ $auth.user?.username }})</div>
 
-        <pre>{{ appStore.layout }}</pre>
         <q-toggle
           v-model="appStore.isDrawer"
           checked-icon="dashboard"
