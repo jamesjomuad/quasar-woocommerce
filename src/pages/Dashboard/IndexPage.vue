@@ -54,7 +54,7 @@ const productStore = useProductsStore()
 onMounted(() => {
   if (!auth.isAuthenticated) {
     // Redirect to login if not authenticated
-    console.log(auth.user)
+    // console.log(auth.user)
   }
 })
 
