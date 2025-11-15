@@ -120,15 +120,9 @@ const menus = [
     href:''
   },
   {
-    label: 'Logs',
-    caption: 'System logs',
-    icon:'assessment',
-    href:''
-  },
-  {
-    label:'Job Orders',
-    caption: 'Task & Tickets',
-    icon:'app_registration'
+    label: 'Cart',
+    icon:'shopping_cart',
+    href:'/cart'
   },
   {
     label:'Logout',
@@ -145,6 +139,9 @@ $theme.init()
 
 function goTo(item) {
   console.log('Clicked:', item.label)
+  if(item.onClick){
+    item.onClick()
+  }
   if (item.href) router.push(item.href)
 }
 

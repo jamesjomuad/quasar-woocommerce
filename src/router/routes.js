@@ -77,6 +77,16 @@ const routes = [
         name: 'Themes',
         meta: { requiresAuth: true },
       },
+
+      // Cart
+      {
+        path: 'cart',
+        component: () => import('pages/Cart/IndexPage.vue'),
+        name: 'Themes',
+        meta: { requiresAuth: true },
+      },
+
+      // Not found
       {
         path: ':catchAll(.*)*',
         component: () => import('src/pages/Errors/NotFound.vue'),

@@ -103,6 +103,11 @@ export default defineConfig((/* ctx */) => {
 
       // Quasar plugins
       plugins: ['LocalStorage', 'SessionStorage', 'Notify', 'Dialog', 'Loading'],
+
+      test: {
+        globals: true,
+        environment: 'jsdom', // required for Vue DOM
+      },
     },
 
     // https://v2.quasar.dev/options/animations
