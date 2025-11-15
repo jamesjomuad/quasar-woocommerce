@@ -1,3 +1,18 @@
 .bg-surface { background: var(--q-surface); color: var(--text-color); }
 .bg-light { background: var(--q-light); color: var(--text-color); }
 .card-update{ background-color: rgb(255 255 255 / 70%); }
+.rounded-sm { 
+border-radius: 4px; 
+}
+.rounded-md { 
+border-radius: 8px; 
+}
+.rounded-lg { 
+border-radius: 12px; 
+}
+.rounded-xl { 
+border-radius: 20px; 
+}
+.rounded-2xl { 
+border-radius: 32px; 
+}

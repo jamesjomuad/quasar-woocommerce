@@ -1,5 +1,5 @@
 // src/boot/auth-guard.js
-import { useAuthStore } from 'src/stores/auth'
+import { useAuthStore } from 'src/stores/authStore'
 
 export default ({ router }) => {
   router.beforeEach(async (to, from, next) => {

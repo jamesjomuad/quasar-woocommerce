@@ -1,5 +1,5 @@
 <template>
-  <q-breadcrumbs class="text-grey-9 q-ma-md">
+  <q-breadcrumbs class="q-pa-sm bg-grey-1">
     <q-breadcrumbs-el label="Dashboard" to="/dashboard"/>
     <q-breadcrumbs-el
       v-for="(crumb, index) in breadcrumbs"
@@ -8,7 +8,7 @@
       :icon="crumb.icon"
       :to="crumb.to"
       :disable="index === breadcrumbs.length - 1"
-      class="cursor-pointer"
+      class="cursor-pointer text-primary"
     />
   </q-breadcrumbs>
 </template>

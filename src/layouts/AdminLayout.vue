@@ -39,7 +39,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useAuthStore } from 'src/stores/auth'
+import { useAuthStore } from 'src/stores/authStore'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { useTheme } from 'src/composables/theme'

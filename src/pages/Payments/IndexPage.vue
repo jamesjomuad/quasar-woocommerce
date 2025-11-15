@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <q-page padding class="bg-surface">
     <api-table title="Payments" :rows="subscriptions" :columns="columns" :loading="loading" @request="fetch">
       <!-- Header -->
       <template v-slot:top-right="props">

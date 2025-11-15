@@ -43,7 +43,7 @@
 
 <script setup>
 import { onMounted } from 'vue'
-import { useAuthStore } from 'src/stores/auth'
+import { useAuthStore } from 'src/stores/authStore'
 import { useProductsStore } from 'src/stores/products'
 import moment from 'moment'
 

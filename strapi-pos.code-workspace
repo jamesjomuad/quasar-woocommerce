@@ -1,14 +1,11 @@
 {
-	"folders": [
-		{
-			"path": "../strapi-pos"
-		},
-		{
-			"path": "."
-		},
-		{
-			"path": "src"
-		}
-	],
-	"settings": {}
+  "folders": [
+    {
+      "path": ".",
+    },
+    {
+      "path": "src",
+    },
+  ],
+  "settings": {},
 }
