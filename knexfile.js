@@ -1,23 +1,16 @@
-// Update with your config settings.
-
-/**
- * @type { Object.<string, import("knex").Knex.Config> }
- */
-const config = {
+export default {
   development: {
     client: 'better-sqlite3',
     connection: {
-      // The database file path relative to your project root for CLI use.
-      filename: './dev_database.sqlite3',
+      filename: './database.sqlite3',
     },
     useNullAsDefault: true, // Recommended for SQLite
     migrations: {
-      directory: './migrations', // Where your migration files live
-      // IMPORTANT: Tell Knex to also load .cjs files
-      loadExtensions: ['.js', '.cjs'],
+      directory: './migrations',
+      loadExtensions: ['.js'],
     },
     seeds: {
-      directory: './seeds', // Where your seed files live
+      directory: './seeds',
     },
   },
 
@@ -53,5 +46,3 @@ const config = {
     },
   },
 }
-
-export default config

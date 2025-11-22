@@ -1,19 +1,18 @@
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
- *
- * npx knex migrate:latest --esm
  */
-exports.up = function (knex) {
+export async function up(knex) {
   // 'up' function is for applying the migration (creating the table)
-  return knex.schema.createTable('users', (table) => {
+  // We use 'await' here with the modern async function export (ESM standard)
+  await knex.schema.createTable('users', (table) => {
     // Primary Key: Auto-incrementing integer ID
     table.increments('id').primary()
 
     // User data fields
     table.string('name', 255).notNullable()
     table.string('email', 255).notNullable().unique()
-    table.string('password_hash', 255) // We can add a password field for authentication later
+    table.string('password_hash', 255)
 
     // Timestamps
     table.timestamp('created_at').defaultTo(knex.fn.now())
@@ -25,7 +24,7 @@ exports.up = function (knex) {
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.down = function (knex) {
+export async function down(knex) {
   // 'down' function is for reversing the migration (dropping the table)
-  return knex.schema.dropTableIfExists('users')
+  await knex.schema.dropTableIfExists('users')
 }

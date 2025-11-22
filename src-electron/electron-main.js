@@ -11,7 +11,7 @@ const currentDir = fileURLToPath(new URL('.', import.meta.url))
 
 let mainWindow
 
-let knexInstance = null
+let knex = null
 
 async function runMigrations(db) {
   try {
@@ -27,10 +27,10 @@ async function runMigrations(db) {
 
 async function createWindow() {
   // 1. Connect to the database
-  knexInstance = connect()
+  knex = connect()
 
   // 2. Run migrations before loading the app content
-  await runMigrations(knexInstance)
+  await runMigrations(knex)
 
   /**
    * Initial window options
@@ -74,7 +74,7 @@ async function createWindow() {
   }
 
   mainWindow.on('closed', () => {
-    mainWindow = null1
+    mainWindow = null
   })
 
   const isDev = !app.isPackaged
