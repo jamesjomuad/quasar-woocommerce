@@ -1,27 +1,29 @@
-const path = require('path')
-const { app } = require('electron') // Electron app module for paths
-const knex = require('knex')
+// db-connect.js - Central file to establish the Knex connection
+// This version uses a NAMED EXPORT 'connect' to match the Electron main file's import.
 
-const DB_FILENAME = 'database.sqlite3'
+import knex from 'knex'
+import * as path from 'path' // Crucial: Must import path statically
 
-function connect() {
-  // Use Electron's userData path for cross-platform stability
-  const dbPath = path.join(app.getPath('userData'), DB_FILENAME)
-
-  console.log(`Attempting to connect to database at: ${dbPath}`)
-
-  // Create the Knex instance
-  const db = knex({
-    client: 'better-sqlite3',
-    connection: {
-      filename: dbPath,
-    },
-    useNullAsDefault: true,
-  })
-
-  return db
+// Define your configuration directly for application use
+const dbConfig = {
+  client: 'better-sqlite3',
+  connection: {
+    // FIX: Use path.resolve() to give Knex an ABSOLUTE path
+    filename: path.resolve(process.cwd(), 'database.sqlite3'),
+  },
+  useNullAsDefault: true,
 }
 
-module.exports = {
-  connect,
+// Function that returns the initialized Knex instance
+// This is the function that will be NAMED EXPORTED
+export function connect() {
+  try {
+    const db = knex(dbConfig)
+    console.log('Database client initialized successfully.')
+    return db
+  } catch (error) {
+    console.error('Failed to initialize database client:', error)
+    // You might want to handle this error more gracefully in a real app
+    throw error
+  }
 }

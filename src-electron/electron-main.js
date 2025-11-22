@@ -1,5 +1,5 @@
 import { app, BrowserWindow } from 'electron'
-const { connect } = require('./db-connect')
+import { connect } from './db-connect.js'
 import path from 'node:path'
 import os from 'node:os'
 import { fileURLToPath } from 'node:url'
