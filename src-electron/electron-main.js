@@ -1,8 +1,9 @@
-import { app, BrowserWindow } from 'electron'
-import { connect } from './db-connect.js'
+import { app, BrowserWindow, ipcMain } from 'electron'
+import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import os from 'node:os'
-import { fileURLToPath } from 'node:url'
+import { connect } from './db-connect.js'
+import User from './models/User.js'
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform()
@@ -25,12 +26,43 @@ async function runMigrations(db) {
   }
 }
 
+function setupIpcHandlers() {
+  // Listener for 'db:get-users' from the renderer process
+  ipcMain.handle('db:get-users', async () => {
+    try {
+      console.log('IPC: Received request to fetch users.')
+      // Call the User Model method
+      const users = await User.findAll()
+      return users // Send data back to renderer
+    } catch (error) {
+      console.error('IPC Handler (db:get-users) failed:', error)
+      // Return error to the renderer
+      return { error: error.message }
+    }
+  })
+
+  // Listener for 'db:create-user'
+  ipcMain.handle('db:create-user', async (event, userData) => {
+    try {
+      console.log('IPC: Received request to create user:', userData.email)
+      const [id] = await User.create(userData)
+      return id
+    } catch (error) {
+      console.error('IPC Handler (db:create-user) failed:', error)
+      return { error: error.message }
+    }
+  })
+}
+
 async function createWindow() {
   // 1. Connect to the database
   knex = connect()
 
   // 2. Run migrations before loading the app content
   await runMigrations(knex)
+
+  // 3. CRUCIAL: Set up IPC handlers after the DB is ready
+  setupIpcHandlers() // <--- ADD THIS LINE HERE
 
   /**
    * Initial window options
@@ -42,7 +74,6 @@ async function createWindow() {
     useContentSize: true,
     webPreferences: {
       contextIsolation: true,
-      // More info: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script
       preload: path.resolve(
         currentDir,
         path.join(
@@ -103,7 +134,12 @@ async function createWindow() {
       },
     })
   })
-}
+
+  mainWindow.on('closed', () => {
+    mainWindow = null
+    knex.destroy()
+  })
+} // createWindow
 
 app.whenReady().then(createWindow)
 

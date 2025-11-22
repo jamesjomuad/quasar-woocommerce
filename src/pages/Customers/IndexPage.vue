@@ -33,7 +33,7 @@ defineOptions({
   name: 'ProductsIndexPage'
 })
 
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCustomerStore } from 'src/stores/customerStore'
 import ApiTable from 'src/components/ApiTable.vue'
@@ -51,10 +51,49 @@ const columns = [
   { name: 'created_at', label: 'Created At', field: 'createdAt', align: "right", }
 ]
 
+const users = ref([]);
+const creationMessage = ref(null);
+const error = ref(null);
+
+
 
 onMounted(() => {
-  store.fetch()
+  // store.fetch()
+  loadUsers();
 })
+
+const loadUsers = async () => {
+  console.log(typeof window.electronAPI);
+
+  if (typeof window.electronAPI === 'undefined') {
+    error.value = 'Electron IPC API is not available.';
+    return;
+  }
+
+
+  loading.value = true;
+  error.value = null;
+  creationMessage.value = null;
+
+  try {
+    // CALL TO MAIN PROCESS VIA PRELOAD SCRIPT
+    const result = await window.electronAPI.getUsers();
+
+    console.log('Users fetched from main process:', result);
+
+    if (result && result.error) {
+      error.value = result.error;
+    } else {
+      users.value = result;
+    }
+
+  } catch (err) {
+    console.error('Error fetching users from main process:', err);
+    error.value = 'Could not fetch users from database.';
+  } finally {
+    loading.value = false;
+  }
+};
 
 function fetch(pagination) {
   store.fetch(pagination)
