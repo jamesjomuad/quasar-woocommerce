@@ -3,7 +3,7 @@ import axios from 'axios'
 
 const apiEndpoint = `${process.env.VITE_STRAPI_URL}/api`
 
-export const useCustomersStore = defineStore('customers', {
+export const useCustomerStore = defineStore('customers', {
   state: () => ({
     customers: [],
     loading: false,
@@ -29,5 +29,5 @@ export const useCustomersStore = defineStore('customers', {
 })
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useCustomersStore, import.meta.hot))
+  import.meta.hot.accept(acceptHMRUpdate(useCustomerStore, import.meta.hot))
 }

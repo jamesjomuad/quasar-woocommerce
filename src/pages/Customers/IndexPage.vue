@@ -35,12 +35,12 @@ defineOptions({
 
 import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useCustomersStore } from 'src/stores/customers'
+import { useCustomerStore } from 'src/stores/customerStore'
 import ApiTable from 'src/components/ApiTable.vue'
 import moment from 'moment'
 
 
-const store = useCustomersStore()
+const store = useCustomerStore()
 const { customers, loading } = storeToRefs(store)
 const columns = [
   { name: 'ID', label: 'ID', field: 'id', align: "left", },

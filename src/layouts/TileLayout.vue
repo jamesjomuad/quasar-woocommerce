@@ -41,18 +41,29 @@
               class="col-xs-12 col-sm-6 col-md-4 bg-dark text-white full-height text-center cursor-pointer rounded-lg"
               @click="goTo(item)"
             >
-              <q-card-section class="q-pt-none">
-                <q-avatar
-                  rounded
-                  text-color="white"
-                  :icon="item.icon"
-                  size="70px"
-                  font-size="50px"
-                />
-              </q-card-section>
-              <q-card-section class="q-pt-none">
-                <div class="text-weight-medium">{{ item.label }}</div>
-                <div v-if="item.caption" class="text-weight-light">{{ item.caption }}</div>
+              <q-card-section class="q-pt-none full-height row items-center justify-center">
+                <div class="column">
+                  <div class="col">
+                    <q-avatar
+                      rounded
+                      text-color="white"
+                      :icon="item.icon"
+                      size="50px"
+                      font-size="50px"
+                    />
+                  </div>
+
+                  <div class="col text-weight-medium">
+                    {{ item.label }}
+                  </div>
+
+                  <div
+                    v-if="item.caption"
+                    class="col text-weight-light"
+                  >
+                    {{ item.caption }}
+                  </div>
+                </div>
               </q-card-section>
             </q-card>
           </div>
@@ -85,25 +96,21 @@ const menus = [
   },
   {
     label: 'Products',
-    caption: 'Manage products & services',
     icon:'store',
     href:'/products'
   },
   {
     label: 'Customers',
-    caption: 'Customer records',
     icon:'group',
     href:'/customers'
   },
   {
     label: 'Subscriptions',
-    caption: 'Customer subscriptions',
     icon:'rss_feed',
     href:'/subscriptions'
   },
   {
     label: 'Payments',
-    caption: 'Payment records',
     icon:'payment',
     href:'/payments'
   },
@@ -138,13 +145,11 @@ const menus = [
 $theme.init()
 
 function goTo(item) {
-  console.log('Clicked:', item.label)
   if(item.onClick){
     item.onClick()
   }
   if (item.href) router.push(item.href)
 }
-
 
 watch(
   () => route.name,

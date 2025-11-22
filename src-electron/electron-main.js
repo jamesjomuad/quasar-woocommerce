@@ -1,4 +1,5 @@
 import { app, BrowserWindow } from 'electron'
+const { connect } = require('./db-connect')
 import path from 'node:path'
 import os from 'node:os'
 import { fileURLToPath } from 'node:url'
@@ -10,7 +11,27 @@ const currentDir = fileURLToPath(new URL('.', import.meta.url))
 
 let mainWindow
 
+let knexInstance = null
+
+async function runMigrations(db) {
+  try {
+    // Run all pending migrations
+    await db.migrate.latest()
+    console.log('Database migrations completed successfully.')
+  } catch (error) {
+    console.error('Database migration failed:', error)
+    // Handle error (e.g., quit the app or show a critical error message)
+    app.quit()
+  }
+}
+
 async function createWindow() {
+  // 1. Connect to the database
+  knexInstance = connect()
+
+  // 2. Run migrations before loading the app content
+  await runMigrations(knexInstance)
+
   /**
    * Initial window options
    */
@@ -53,7 +74,7 @@ async function createWindow() {
   }
 
   mainWindow.on('closed', () => {
-    mainWindow = null
+    mainWindow = null1
   })
 
   const isDev = !app.isPackaged

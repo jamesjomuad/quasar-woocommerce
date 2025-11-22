@@ -82,7 +82,7 @@ const routes = [
       {
         path: 'cart',
         component: () => import('pages/Cart/IndexPage.vue'),
-        name: 'Themes',
+        name: 'Cart',
         meta: { requiresAuth: true },
       },
 
