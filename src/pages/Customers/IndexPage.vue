@@ -63,7 +63,7 @@ onMounted(() => {
 })
 
 const loadUsers = async () => {
-  console.log(typeof window.electronAPI);
+  console.log(typeof window.api);
 
   if (typeof window.electronAPI === 'undefined') {
     error.value = 'Electron IPC API is not available.';

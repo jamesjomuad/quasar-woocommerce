@@ -27,8 +27,12 @@
  *   }
  * }
  */
-import { contextBridge } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
 
-contextBridge.exposeInMainWorld('myAPI', {
-  doAThing: () => {},
+contextBridge.exposeInMainWorld('api', {
+  user: {
+    all: () => ipcRenderer.invoke('user:all'),
+    find: (id) => ipcRenderer.invoke('user:find', id),
+    create: (data) => ipcRenderer.invoke('user:create', data),
+  },
 })
