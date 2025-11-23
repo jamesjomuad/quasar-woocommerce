@@ -1,6 +1,6 @@
-import { db } from './knex.js'
+import { db } from '../connect.js'
 
-export class BaseModel {
+export class Model {
   constructor(table) {
     this.table = table
 

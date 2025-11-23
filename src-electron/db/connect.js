@@ -27,3 +27,5 @@ export function connect() {
     throw error
   }
 }
+
+export const db = knex(dbConfig)

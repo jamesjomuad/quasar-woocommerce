@@ -6,6 +6,9 @@
     {
       "path": "src",
     },
+    {
+      "path": "src-electron",
+    },
   ],
   "settings": {},
 }

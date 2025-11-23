@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useAuthStore } from 'src/stores/authStore'
 import { useRouter } from 'vue-router'
 
@@ -44,6 +44,11 @@ const loading = ref(false)
 const auth = useAuthStore()
 const router = useRouter()
 const error = ref(false)
+
+onMounted(async () => {
+  let data = await window.api.user.all();
+  console.log(data);
+})
 
 const handleLogin = async () => {
   loading.value = true
