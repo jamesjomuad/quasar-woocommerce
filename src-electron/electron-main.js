@@ -1,9 +1,9 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow } from 'electron'
 import { fileURLToPath } from 'node:url'
 import { connect } from './db/connect.js'
 import path from 'node:path'
 import os from 'node:os'
-import UserModel from './db/models/User.js'
+import { setupIPCHandlers } from './ipc/handlers.js'
 
 
 // needed in case process is undefined under Linux
@@ -27,19 +27,6 @@ async function migrate(db) {
   }
 }
 
-function setupIPCHandlers() {
-  ipcMain.handle('user:all', async () => {
-    try {
-      console.log('IPC: Received request to fetch all users (user:all).')
-      const users = await UserModel.all()
-      return users
-    } catch (error) {
-      console.error('IPC Handler (user:all) failed:', error)
-      // Return a structured error object back to the renderer
-      return { error: error.message }
-    }
-  })
-}
 
 async function createWindow() {
   // 1. Connect to the database
