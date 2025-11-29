@@ -28,5 +28,4 @@ class User extends Model {
   }
 }
 
-// export const UserModel = new User()
-export default User
+export default new User()

@@ -1,9 +1,10 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import { fileURLToPath } from 'node:url'
+import { connect } from './db/connect.js'
 import path from 'node:path'
 import os from 'node:os'
-import { connect } from './db/connect.js'
-import User from './db/models/User.js'
+import UserModel from './db/models/User.js'
+
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform()
@@ -14,7 +15,7 @@ let mainWindow
 
 let knex = null
 
-async function runMigrations(db) {
+async function migrate(db) {
   try {
     // Run all pending migrations
     await db.migrate.latest()
@@ -26,28 +27,15 @@ async function runMigrations(db) {
   }
 }
 
-function ipcHandlers() {
-  // Listener for 'api:user:getUsers'
+function setupIPCHandlers() {
   ipcMain.handle('user:all', async () => {
     try {
       console.log('IPC: Received request to fetch all users (user:all).')
-      const users = await User.all()
+      const users = await UserModel.all()
       return users
     } catch (error) {
       console.error('IPC Handler (user:all) failed:', error)
       // Return a structured error object back to the renderer
-      return { error: error.message }
-    }
-  })
-
-  // Listener for 'api:user:createUser'
-  ipcMain.handle('api:user:createUser', async (event, userData) => {
-    try {
-      console.log('IPC: Received request to create user (api:user:createUser):', userData.email)
-      const [id] = await User.create(userData)
-      return id
-    } catch (error) {
-      console.error('IPC Handler (api:user:createUser) failed:', error)
       return { error: error.message }
     }
   })
@@ -58,10 +46,10 @@ async function createWindow() {
   knex = connect()
 
   // 2. Run migrations before loading the app content
-  await runMigrations(knex)
+  await migrate(knex)
 
   // 3. CRUCIAL: Set up IPC handlers after the DB is ready
-  ipcHandlers()
+  setupIPCHandlers()
 
   /**
    * Initial window options

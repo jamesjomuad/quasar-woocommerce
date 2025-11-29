@@ -32,7 +32,7 @@ import { contextBridge, ipcRenderer } from 'electron'
 contextBridge.exposeInMainWorld('api', {
   user: {
     all: () => ipcRenderer.invoke('user:all'),
-    find: (id) => ipcRenderer.invoke('user:find', id),
-    create: (data) => ipcRenderer.invoke('user:create', data),
+    // find: (id) => ipcRenderer.invoke('user:find', id),
+    // create: (data) => ipcRenderer.invoke('user:create', data),
   },
 })

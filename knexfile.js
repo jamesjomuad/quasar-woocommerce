@@ -31,11 +31,9 @@ export default {
   },
 
   production: {
-    client: 'postgresql',
+    client: 'better-sqlite3',
     connection: {
-      database: 'my_db',
-      user: 'username',
-      password: 'password',
+      filename: './database.sqlite3',
     },
     pool: {
       min: 2,
