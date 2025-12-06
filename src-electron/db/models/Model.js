@@ -8,10 +8,8 @@ export class Model {
     this.fillable = []
     this.hidden = []
     this.casts = {} // { field: 'boolean' | 'int' | 'float' | 'date' }
-
     this.timestamps = true
     this.softDelete = true
-
     this.globalScopes = []
   }
 
@@ -42,13 +40,13 @@ export class Model {
     return rows.map((r) => this.transform(r))
   }
 
-  async find(id) {
-    const row = await this.query().where({ id }).first()
+  async find(q) {
+    const row = await this.query().where(q).first()
     return row ? this.transform(row) : null
   }
 
   async create(data) {
-    const filtered = this.filterFillable(data)
+    let filtered = this.filterFillable(data)
     const now = new Date().toISOString()
 
     if (this.timestamps) {
@@ -56,7 +54,8 @@ export class Model {
       filtered.updated_at = now
     }
 
-    await this.beforeCreate(filtered)
+    // FIX: assign returned modified data
+    filtered = await this.beforeCreate(filtered) ?? filtered
 
     const ids = await db(this.table).insert(filtered)
     const result = await this.find(ids[0])

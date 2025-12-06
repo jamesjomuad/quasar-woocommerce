@@ -10,7 +10,7 @@
           <div class="text-h5 text-center text-weight-bold">Login</div>
         </q-card-section>
         <q-card-section>
-          <q-form @submit.prevent="handleLogin" class="q-gutter-md">
+          <q-form @submit.prevent="onLogin" class="q-gutter-md">
             <q-input filled v-model="form.username" label="Username" type="text" required
               :rules="[val => !!val || 'Username is required']" />
             <q-input filled v-model="form.password" label="Password" type="password" required
@@ -35,28 +35,40 @@ import { ref, onMounted } from 'vue'
 import { useAuthStore } from 'src/stores/authStore'
 import { useRouter } from 'vue-router'
 
+const $auth = window.api.auth;
 const form = ref({
   username: '',
   password: ''
 })
 
 const loading = ref(false)
+// eslint-disable-next-line no-unused-vars
 const auth = useAuthStore()
 const router = useRouter()
 const error = ref(false)
 
 onMounted(async () => {
   let data = await window.api.user.all();
-  console.log(data);
+  if(data.length==0){
+    router.push('/register')
+  }
 })
 
-const handleLogin = async () => {
+const onLogin = async () => {
   loading.value = true
   try {
-    await auth.login(form.value)
-    router.push('/')
-  } catch (err) {
-    console.log('Login error:', err)
+    let user = await $auth.login({
+      username: form.value.username,
+      password: form.value.password,
+    })
+    console.log(user)
+    if(user.success==false){
+      error.value = true
+    }
+    // await auth.login(form.value)
+    // router.push('/')
+  } catch (error) {
+    console.log('Login error:', error.message)
     error.value = true
   } finally {
     loading.value = false

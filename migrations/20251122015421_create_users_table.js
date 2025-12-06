@@ -8,19 +8,16 @@
 export async function up(knex) {
   return knex.schema.createTable('users', (table) => {
     table.increments('id').primary()
-
-    table.string('name').notNullable()
-    table.string('email').notNullable().unique()
-    table.string('password').notNullable()
-
+    table.string('username').unique().notNullable()
+    table.string('first_name').notNullable()
+    table.string('last_name').notNullable()
+    table.string('email').unique().notNullable()
+    table.string('phone').unique().notNullable()
+    table.string('password', 255).notNullable()
     table.boolean('active').defaultTo(true)
-
-    // Laravel-style timestamps
     table.timestamp('created_at').defaultTo(knex.fn.now())
     table.timestamp('updated_at').defaultTo(knex.fn.now())
-
-    // Soft delete (Laravel-style)
-    table.timestamp('deleted_at').nullable()
+    table.timestamp('deleted_at').nullable().index() // For soft delete tracking
   })
 }
 

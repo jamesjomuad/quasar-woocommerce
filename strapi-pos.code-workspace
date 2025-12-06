@@ -1,13 +1,16 @@
 {
   "folders": [
     {
+      "name": "quasar-woocommerce",
       "path": ".",
     },
     {
-      "path": "src",
+      "name": "src-electron",
+      "path": "src-electron",
     },
     {
-      "path": "src-electron",
+      "name": "src",
+      "path": "src",
     },
   ],
   "settings": {},
