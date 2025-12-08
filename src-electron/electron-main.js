@@ -4,6 +4,7 @@ import { connect } from './db/connect.js'
 import path from 'node:path'
 import os from 'node:os'
 import { setupIPCHandlers } from './ipc/handlers.js'
+import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
 
 
 // needed in case process is undefined under Linux
@@ -27,6 +28,16 @@ async function migrate(db) {
   }
 }
 
+async function installVueDevtools() {
+  if (process.env.DEV) { // Only run in development mode
+    try {
+      const name = await installExtension(VUEJS_DEVTOOLS);
+      console.log(`✅ Added Extension: ${name}`);
+    } catch (error) {
+      console.error('An error occurred installing Vue Devtools:', error);
+    }
+  }
+}
 
 async function createWindow() {
   // 1. Connect to the database
@@ -115,7 +126,10 @@ async function createWindow() {
   })
 } // createWindow
 
-app.whenReady().then(createWindow)
+app.whenReady().then(async ()=>{
+  await installVueDevtools();
+  createWindow()
+})
 
 app.on('window-all-closed', () => {
   if (platform !== 'darwin') {

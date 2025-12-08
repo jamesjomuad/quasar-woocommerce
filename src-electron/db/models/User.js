@@ -14,7 +14,7 @@ class User extends Model {
       'password'
     ]
 
-    this.hidden = ['password']
+    // this.hidden = ['password']
 
     this.casts = {
       id: 'int',
@@ -29,12 +29,14 @@ class User extends Model {
 
   // Events
   async beforeCreate(data) {
-    data.password = await bcrypt.hash(data.password, 10)
+    if (data.password) { // ⚠️ Check 1: Ensure 'password' is the field holding the plaintext input
+      data.password = await bcrypt.hash(data.password, 10) // ⚠️ Check 2: The hash is stored back in data.password
+    }
     return data
   }
 
-  // validPassword
-  async validPassword(plaintextPassword, storedHash) {
+  // Check password
+  async checkPassword(plaintextPassword, storedHash) {
     if (!storedHash) {
       return false;
     }

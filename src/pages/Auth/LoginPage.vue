@@ -11,10 +11,22 @@
         </q-card-section>
         <q-card-section>
           <q-form @submit.prevent="onLogin" class="q-gutter-md">
-            <q-input filled v-model="form.username" label="Username" type="text" required
-              :rules="[val => !!val || 'Username is required']" />
-            <q-input filled v-model="form.password" label="Password" type="password" required
-              :rules="[val => !!val || 'Password is required']" />
+            <q-input
+              filled
+              required
+              v-model="form.username"
+              label="Username"
+              type="text"
+              :rules="[val => !!val || 'Username is required']"
+            />
+            <q-input
+              filled
+              required
+              v-model="form.password"
+              label="Password"
+              type="password"
+              :rules="[val => !!val || 'Password is required']"
+            />
 
             <div class="q-mt-md">
               <q-btn size="lg" type="submit" label="Login" color="primary" class="full-width" :loading="loading" />
@@ -42,7 +54,6 @@ const form = ref({
 })
 
 const loading = ref(false)
-// eslint-disable-next-line no-unused-vars
 const auth = useAuthStore()
 const router = useRouter()
 const error = ref(false)
@@ -61,12 +72,12 @@ const onLogin = async () => {
       username: form.value.username,
       password: form.value.password,
     })
-    console.log(user)
-    if(user.success==false){
+    if(user.success){
+      auth.setUser(user.data)
+      router.push('/')
+    }else if(user.success==false){
       error.value = true
     }
-    // await auth.login(form.value)
-    // router.push('/')
   } catch (error) {
     console.log('Login error:', error.message)
     error.value = true

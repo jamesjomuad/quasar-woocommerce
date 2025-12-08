@@ -33,6 +33,10 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
+    setUser(user){
+      this.user = user
+    },
+
     async login({ username, password }) {
       const res = await axios.post(`${apiEndpoint}/auth/local`, {
         identifier: username,

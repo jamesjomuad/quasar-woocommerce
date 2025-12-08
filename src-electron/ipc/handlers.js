@@ -44,7 +44,7 @@ export function setupIPCHandlers() {
       const storedHash = userRecord.password; // Get the stored hash
 
       // 2. Call the validation method on the User instance.
-      const isMatch = await UserModel.validPassword(password, storedHash);
+      const isMatch = await UserModel.checkPassword(password, storedHash);
 
       if (isMatch) {
         // Remove the sensitive hash before sending data back.
