@@ -114,12 +114,9 @@
 import { ref, onMounted, watch } from 'vue'
 import { useQuasar, debounce } from 'quasar'
 import { useRoute } from 'vue-router'
-import { useProductsStore } from 'src/stores/products'
-
 
 const $q = useQuasar()
 const route = useRoute()
-const store = useProductsStore()
 const hasMounted = ref(false)
 const form = ref({
   name: '',
@@ -132,23 +129,35 @@ const form = ref({
   cost: '',
 })
 
-
-
-onMounted(async ()=>{
+onMounted(async () => {
   $q.loading.show()
-  let { data } = await store.get(route.params.id)
+  try {
+    const result = await window.api.product.find({ id: route.params.id })
 
-  form.value.name = data.name
-  form.value.sku = data.sku
-  form.value.description = data.description
-  form.value.cost = data.cost
-  form.value.price = data.price
-  form.value.stock = data.stock
-  form.value.taxable = data.taxable
-  form.value.active = data.active
+    if (result.error) {
+      throw new Error(result.error)
+    }
 
-  $q.loading.hide()
-  hasMounted.value = true
+    const data = result
+    form.value.name = data.name
+    form.value.sku = data.sku
+    form.value.description = data.description
+    form.value.cost = data.cost
+    form.value.price = data.price
+    form.value.stock = data.stock
+    form.value.taxable = data.taxable
+    form.value.active = data.active
+  } catch (err) {
+    console.error('Failed to load product:', err)
+    $q.notify({
+      type: 'negative',
+      message: err.message || 'Failed to load product',
+      position: 'bottom-right',
+    })
+  } finally {
+    $q.loading.hide()
+    hasMounted.value = true
+  }
 })
 
 // Watch for changes
@@ -163,10 +172,20 @@ watch(
 
 const saveForm = async () => {
   try {
-    let { data } = await store.update(route.params.id, form.value)
-    console.log('Auto saving...', data)
+    const result = await window.api.product.update(route.params.id, form.value)
+
+    if (result.error) {
+      throw new Error(result.error)
+    }
+
+    console.log('Auto saving...', result)
   } catch (err) {
     console.error('Save failed:', err)
+    $q.notify({
+      type: 'negative',
+      message: err.message || 'Failed to save product',
+      position: 'bottom-right',
+    })
   }
 }
 </script>

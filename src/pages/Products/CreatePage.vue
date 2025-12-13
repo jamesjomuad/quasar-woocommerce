@@ -118,15 +118,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useQuasar } from 'quasar'
-import { useProductsStore } from 'src/stores/products'
+import { useRouter } from 'vue-router'
 import ToolBar from 'components/ToolBar.vue'
 
-
-
 const $q = useQuasar()
-const store = useProductsStore()
+const router = useRouter()
 const form = ref({
   name: '',
   description: '',
@@ -138,22 +136,35 @@ const form = ref({
   cost: '',
 })
 
-
-
-onMounted(async ()=>{
-  $q.loading.show()
-
-
-  $q.loading.hide()
-})
-
-
 const saveForm = async () => {
   try {
-    let { data } = await store.create(form.value, $q)
-    console.log('Auto saving...', data)
+    $q.loading.show({
+      message: 'Creating product...',
+    })
+
+    const result = await window.api.product.create(form.value)
+
+    if (result.error) {
+      throw new Error(result.error)
+    }
+
+    $q.notify({
+      type: 'positive',
+      message: 'Product created successfully!',
+      position: 'bottom-right',
+    })
+
+    console.log('Product created:', result)
+    router.push('/products')
   } catch (err) {
     console.error('Save failed:', err)
+    $q.notify({
+      type: 'negative',
+      message: err.message || 'Failed to create product',
+      position: 'bottom-right',
+    })
+  } finally {
+    $q.loading.hide()
   }
 }
 </script>

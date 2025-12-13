@@ -29,10 +29,6 @@
         </div>
       </template>
 
-      <!-- Thumbnail -->
-      <template #cell-thumbnail="{ row }">
-        <q-img :src="appUrl+row.thumbnail?.formats?.medium?.url" style="width: 50px; height: 50px;" />
-      </template>
 
       <!-- name -->
       <template #cell-name="{ row }">
@@ -44,7 +40,7 @@
       </template>
 
       <template #cell-created_at="{ row }">
-        {{ moment(row.createdAt).fromNow() }}
+        {{ moment(row.created_at).fromNow() }}
       </template>
 
       <template #cell-actions>
@@ -59,10 +55,8 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
-import { storeToRefs } from 'pinia'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useProductsStore } from 'src/stores/products'
 import ApiTable from 'src/components/ApiTable.vue'
 import UserFinder from 'src/components/UserFinder.vue'
 import moment from 'moment'
@@ -71,40 +65,63 @@ defineOptions({
   name: 'ProductsIndexPage'
 })
 
-const appUrl = `${process.env.VITE_STRAPI_URL}`
 const router = useRouter()
-const store = useProductsStore()
-const { products, loading } = storeToRefs(store)
+const products = ref([])
+const loading = ref(false)
 const columns = [
   { name: 'id', label: 'ID', field: 'id', align: "left" },
-  { name: 'thumbnail', label: 'Thumbnail', field: 'thumbnail', align: "left" },
   { name: 'name', label: 'Name', field: 'name', align: "left" },
   { name: 'sku', label: 'SKU', field: 'sku', align: "left" },
   { name: 'price', label: 'Price', field: 'price', align: "left" },
   { name: 'stock', label: 'Stock', field: 'stock', align: "left" },
-  { name: 'created_at', label: 'Created At', field: 'createdAt', align: "right", },
-  { name: 'actions', label: 'Action', align: "right", }
+  { name: 'created_at', label: 'Created At', field: 'created_at', align: "right" },
+  { name: 'actions', label: 'Action', align: "right" }
 ]
 
-
 onMounted(() => {
-  store.fetch()
+  fetchProducts()
 })
 
+async function fetchProducts(pagination) {
+  loading.value = true
+  try {
+    if (pagination) {
+      const result = await window.api.product.paginate({
+        page: pagination.page,
+        perPage: pagination.rowsPerPage
+      })
+      if (result.error) {
+        throw new Error(result.error)
+      }
+      products.value = result.data || result
+    } else {
+      const result = await window.api.product.all()
+      if (result.error) {
+        throw new Error(result.error)
+      }
+      products.value = result
+    }
+  } catch (err) {
+    console.error('Failed to fetch products:', err)
+  } finally {
+    loading.value = false
+  }
+}
+
 function fetch(pagination) {
-  store.fetch(pagination)
+  fetchProducts(pagination)
 }
 
 function onRefresh() {
-  store.fetch()
+  fetchProducts()
 }
 
-function onRow(e,v){
-  if( e.target.tagName.toLowerCase() == 'td' )
-  router.push(`/products/${v.documentId}`)
+function onRow(e, v) {
+  if (e.target.tagName.toLowerCase() == 'td')
+    router.push(`/products/${v.id}`)
 }
 
-function onUserSelected(user){
+function onUserSelected(user) {
   console.log(user)
 }
 </script>
