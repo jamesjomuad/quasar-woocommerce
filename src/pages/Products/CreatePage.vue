@@ -142,7 +142,9 @@ const saveForm = async () => {
       message: 'Creating product...',
     })
 
-    const result = await window.api.product.create(form.value)
+    // Convert Vue Proxy to plain object for IPC serialization
+    const payload = JSON.parse(JSON.stringify(form.value))
+    const result = await window.api.product.create(payload)
 
     if (result.error) {
       throw new Error(result.error)

@@ -22,5 +22,21 @@ contextBridge.exposeInMainWorld('api', {
     update: (id, data) => ipcRenderer.invoke('product:update', { id, data }),
     delete: (id) => ipcRenderer.invoke('product:delete', id),
     forceDelete: (id) => ipcRenderer.invoke('product:forceDelete', id),
+  },
+
+  // Media
+  media: {
+    all: () => ipcRenderer.invoke('media:all'),
+    paginate: (payload) => ipcRenderer.invoke('media:paginate', payload),
+    find: (payload) => ipcRenderer.invoke('media:find', payload),
+    byType: (type) => ipcRenderer.invoke('media:byType', type),
+    search: (keyword) => ipcRenderer.invoke('media:search', keyword),
+    upload: (payload) => ipcRenderer.invoke('media:upload', payload),
+    uploadMultiple: (files) => ipcRenderer.invoke('media:uploadMultiple', files),
+    update: (id, data) => ipcRenderer.invoke('media:update', { id, data }),
+    delete: (id) => ipcRenderer.invoke('media:delete', id),
+    forceDelete: (id) => ipcRenderer.invoke('media:forceDelete', id),
+    bulkDelete: (ids) => ipcRenderer.invoke('media:bulkDelete', ids),
+    getUploadsPath: () => ipcRenderer.invoke('media:getUploadsPath'),
   }
 })

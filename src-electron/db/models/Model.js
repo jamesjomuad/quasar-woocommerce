@@ -41,7 +41,9 @@ export class Model {
   }
 
   async find(q) {
-    const row = await this.query().where(q).first()
+    // Handle both ID (number) and object queries
+    const query = typeof q === 'object' ? q : { id: q }
+    const row = await this.query().where(query).first()
     return row ? this.transform(row) : null
   }
 
@@ -126,7 +128,8 @@ export class Model {
         return !!value
       case 'date':
       case 'datetime':
-        return new Date(value)
+        // Return ISO string for IPC serialization compatibility
+        return new Date(value).toISOString()
       default:
         return value
     }
@@ -199,12 +202,22 @@ export class Model {
   // ---------------------------------------
   // Events (Can be overridden in child model)
   // ---------------------------------------
-  // async beforeCreate(data) {}
-  // async afterCreate(model) {}
+  async beforeCreate(data) { return data }
+  async afterCreate(model) {
+    return model
+  }
 
-  // async beforeUpdate(id, data) {}
-  // async afterUpdate(model) {}
+  async beforeUpdate(id, data) {
+    return {id, data}
+  }
+  async afterUpdate(model) {
+    return model
+  }
 
-  // async beforeDelete(id) {}
-  // async afterDelete(id) {}
+  async beforeDelete(id) {
+    return id
+  }
+  async afterDelete(id) {
+    return id
+  }
 }

@@ -13,14 +13,14 @@
         </q-card>
       </div>
       <!-- Products -->
-      <div class="col-md-3">
+      <!-- <div class="col-md-3">
         <q-card class="bg-primary text-white full-height">
           <q-card-section class="justify-between full-height column">
             <div class="text-h5">Number of Products</div>
             <div class="text-h2 text-center text-weight-medium">{{ productStore.products.length }}</div>
           </q-card-section>
         </q-card>
-      </div>
+      </div> -->
       <div class="col-md-3">
         <q-card class="bg-accent text-white full-height">
           <q-card-section>
@@ -44,11 +44,9 @@
 <script setup>
 import { onMounted } from 'vue'
 import { useAuthStore } from 'src/stores/authStore'
-import { useProductsStore } from 'src/stores/products'
 import moment from 'moment'
 
 const auth = useAuthStore()
-const productStore = useProductsStore()
 
 
 onMounted(() => {
@@ -56,9 +54,5 @@ onMounted(() => {
     // Redirect to login if not authenticated
     // console.log(auth.user)
   }
-})
-
-onMounted(()=>{
-  productStore.fetch()
 })
 </script>

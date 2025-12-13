@@ -78,6 +78,14 @@ const routes = [
         meta: { requiresAuth: true },
       },
 
+      // Media
+      {
+        path: 'media',
+        component: () => import('pages/Media/IndexPage.vue'),
+        name: 'Media',
+        meta: { requiresAuth: true },
+      },
+
       // Cart
       {
         path: 'cart',

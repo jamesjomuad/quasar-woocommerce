@@ -1,4 +1,4 @@
-import { registerUserHandlers, registerAuthHandlers, registerProductHandlers } from './handlers/index.js';
+import { registerUserHandlers, registerAuthHandlers, registerProductHandlers, registerMediaHandlers } from './handlers/index.js';
 
 /**
  * Setup all IPC handlers by registering each handler module
@@ -10,6 +10,7 @@ export function setupIPCHandlers() {
   registerUserHandlers();
   registerAuthHandlers();
   registerProductHandlers();
+  registerMediaHandlers();
 
   console.log('✅ IPC Handlers registered.');
 }

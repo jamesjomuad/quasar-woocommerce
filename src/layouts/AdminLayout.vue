@@ -86,7 +86,13 @@ const menus = [
     link: '/customers'
   },
   {
-    header: "Settings"
+    header: "Other"
+  },
+  {
+    title: 'Media',
+    caption: 'Documents & Images',
+    icon: 'color_lens',
+    link: '/media'
   },
   {
     title: 'Themes',

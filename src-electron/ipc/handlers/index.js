@@ -6,3 +6,4 @@
 export { registerUserHandlers } from './userHandlers.js';
 export { registerAuthHandlers } from './authHandlers.js';
 export { registerProductHandlers } from './productHandlers.js';
+export { registerMediaHandlers } from './mediaHandlers.js';
