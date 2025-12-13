@@ -71,7 +71,7 @@ async function createWindow() {
 
   // Maximize on launch
   mainWindow.maximize()
-  mainWindow.removeMenu()
+  // mainWindow.removeMenu()
 
   if (process.env.DEV) {
     await mainWindow.loadURL(process.env.APP_URL)
@@ -79,7 +79,7 @@ async function createWindow() {
     await mainWindow.loadFile('index.html')
   }
 
-  if (process.env.DEBUGGING) {
+  if (process.env.DEV || process.env.DEBUGGING) {
     // if on DEV or Production with debug enabled
     mainWindow.webContents.openDevTools()
   } else {

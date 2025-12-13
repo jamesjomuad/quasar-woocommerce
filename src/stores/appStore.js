@@ -7,7 +7,7 @@ export const useAppStore = defineStore('app', () => {
   const subtitle = ref('')
 
   // 🎨 Layout and Theme
-  const layout = ref('tile') // or 'drawer'
+  const layout = ref('drawer') // or 'drawer'
   const darkMode = ref(false)
   const isDrawer = ref(layout.value === 'drawer')
   const isTile = ref(layout.value === 'tile')
