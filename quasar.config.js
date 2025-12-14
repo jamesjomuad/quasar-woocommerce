@@ -209,6 +209,22 @@ export default defineConfig((/* ctx */) => {
       },
     },
 
+    meta: {
+      meta: {
+        'Content-Security-Policy': {
+          'http-equiv': 'Content-Security-Policy',
+          content: `
+            default-src 'self';
+            img-src 'self' local-file: data: blob:;
+            media-src 'self' local-file: data: blob:;
+            frame-src 'self' local-file:;
+          `
+            .replace(/\s+/g, ' ')
+            .trim(),
+        },
+      },
+    },
+
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-browser-extensions/configuring-bex
     bex: {
       // extendBexScriptsConf (esbuildConf) {},

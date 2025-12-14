@@ -91,7 +91,7 @@ const menus = [
   {
     title: 'Media',
     caption: 'Documents & Images',
-    icon: 'color_lens',
+    icon: 'perm_media',
     link: '/media'
   },
   {

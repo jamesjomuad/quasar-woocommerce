@@ -192,7 +192,7 @@
         <q-td>
           <q-img
             v-if="isImage(row)"
-            :src="row.url"
+            :src="getUrl(row.url)"
             style="width: 50px; height: 50px"
             class="rounded-borders"
           />
@@ -302,12 +302,15 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
+import { useLocalFile } from 'src/composables/useLocalFile'
 
 defineOptions({
   name: 'MediaIndexPage'
 })
 
 const $q = useQuasar()
+const { useFile } = useLocalFile()
+
 
 // State
 const media = ref([])
@@ -571,6 +574,15 @@ function formatDate(date) {
     month: 'short',
     day: 'numeric'
   })
+}
+
+function getFile(url) {
+  return useFile(url)
+}
+
+function getUrl(row) {
+  const file = getFile(row)
+  return file.url.value
 }
 
 // Expose methods for external use (e.g., product thumbnail selection)
