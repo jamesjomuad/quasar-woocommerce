@@ -1,32 +1,17 @@
 <template>
   <q-page class="flex flex-center bg-dark">
-    <transition
-      appear
-      enter-active-class="animated zoomIn delay-2s"
-      leave-active-class="animated zoomOut"
-    >
-      <q-card class="w-96 p-6 rounded-2xl shadow-lg q-pa-md" style="width: 450px;" :class="{ 'animated shakeX': error }" @animationend="error = false">
+    <transition appear enter-active-class="animated zoomIn delay-2s" leave-active-class="animated zoomOut">
+      <q-card class="w-96 p-6 rounded-2xl shadow-lg q-pa-md" style="width: 450px;" :class="{ 'animated shakeX': error }"
+        @animationend="error = false">
         <q-card-section>
           <div class="text-h5 text-center text-weight-bold">Login</div>
         </q-card-section>
         <q-card-section>
           <q-form @submit.prevent="onLogin" class="q-gutter-md">
-            <q-input
-              filled
-              required
-              v-model="form.username"
-              label="Username"
-              type="text"
-              :rules="[val => !!val || 'Username is required']"
-            />
-            <q-input
-              filled
-              required
-              v-model="form.password"
-              label="Password"
-              type="password"
-              :rules="[val => !!val || 'Password is required']"
-            />
+            <q-input filled required v-model="form.username" label="Username" type="text"
+              :rules="[val => !!val || 'Username is required']" />
+            <q-input filled required v-model="form.password" label="Password" type="password"
+              :rules="[val => !!val || 'Password is required']" />
 
             <div class="q-mt-md">
               <q-btn size="lg" type="submit" label="Login" color="primary" class="full-width" :loading="loading" />
@@ -54,13 +39,13 @@ const form = ref({
 })
 
 const loading = ref(false)
-const auth = useAuthStore()
+const authStore = useAuthStore()
 const router = useRouter()
 const error = ref(false)
 
 onMounted(async () => {
   let data = await window.api.user.all();
-  if(data.length==0){
+  if (data.length == 0) {
     router.push('/register')
   }
 })
@@ -72,10 +57,10 @@ const onLogin = async () => {
       username: form.value.username,
       password: form.value.password,
     })
-    if(user.success){
-      auth.setUser(user.data)
+    if (user.success) {
+      authStore.setUser(user.data)
       router.push('/')
-    }else if(user.success==false){
+    } else if (user.success == false) {
       error.value = true
     }
   } catch (error) {

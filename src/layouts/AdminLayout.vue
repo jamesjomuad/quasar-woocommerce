@@ -141,7 +141,7 @@ const menus = [
 
 $theme.init()
 
-if ($auth.isLogin()) {
+if ($auth.isLoggedIn) {
   // remove login menu
   const index = menus.findIndex(m => m.title === 'Login')
   if (index !== -1) {
@@ -161,5 +161,4 @@ function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
   showLeftDrawer.value = true
 }
-
 </script>

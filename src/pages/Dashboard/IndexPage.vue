@@ -7,8 +7,8 @@
             <div class="text-h5">Today</div>
             <div class="text-subtitle2">{{ moment().format('MMMM Do YYYY') }}</div>
           </q-card-section>
-          <q-card-section>
-            Welcome {{ auth.user.first_name }} {{ auth.user.last_name }}
+          <q-card-section v-if="authStore.isLoggedIn">
+            Welcome {{ authStore.user.first_name }} {{ authStore.user.last_name }}
           </q-card-section>
         </q-card>
       </div>
@@ -42,17 +42,8 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
 import { useAuthStore } from 'src/stores/authStore'
 import moment from 'moment'
 
-const auth = useAuthStore()
-
-
-onMounted(() => {
-  if (!auth.isAuthenticated) {
-    // Redirect to login if not authenticated
-    // console.log(auth.user)
-  }
-})
+const authStore = useAuthStore()
 </script>
