@@ -79,7 +79,7 @@ async function createWindow() {
 
   // Maximize on launch
   mainWindow.maximize()
-  // mainWindow.removeMenu()
+  mainWindow.removeMenu()
 
   if (process.env.DEV) {
     await mainWindow.loadURL(process.env.APP_URL)

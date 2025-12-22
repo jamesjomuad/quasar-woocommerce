@@ -13,6 +13,7 @@
     "dev": "quasar dev",
     "dev:electron": "electron-rebuild && quasar dev -m electron",
     "build": "quasar build",
+    "build:electron": "quasar build -m electron",
     "electron": "quasar dev -m electron",
     "postinstall": "quasar prepare",
     "bSpa": "quasar build -m spa --env-file .env.production",

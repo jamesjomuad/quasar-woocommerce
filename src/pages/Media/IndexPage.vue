@@ -99,7 +99,7 @@
         >
           <q-img
             v-if="isImage(item)"
-            :src="item.url"
+            :src="getUrl(item.url)"
             :ratio="1"
             class="media-thumbnail"
           >
