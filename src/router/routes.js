@@ -79,13 +79,22 @@ const routes = [
         path: 'payments',
         component: () => import('pages/Payments/IndexPage.vue'),
         name: 'Payments',
-        meta: { requiresAuth: true },
+        meta: {
+          requiresAuth: true,
+          breadcrumb: [{ label: 'Payments', icon: 'receipt_long', to: '/payments' }],
+        },
       },
       {
         path: 'payments/create',
         component: () => import('pages/Payments/CreatePage.vue'),
         name: 'CreatePayment',
-        meta: { requiresAuth: true },
+        meta: {
+          requiresAuth: true,
+          breadcrumb: [
+            { label: 'Payments', icon: 'receipt_long', to: '/payments' },
+            { label: 'Create', icon: 'mode_edit' },
+          ],
+        },
       },
 
       // Customers
