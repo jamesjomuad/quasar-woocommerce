@@ -21,19 +21,28 @@ const routes = [
         path: 'products',
         component: () => import('pages/Products/IndexPage.vue'),
         name: 'Products',
-        meta: { requiresAuth: true },
+        meta: {
+          requiresAuth: true,
+          breadcrumb: [{ label: 'Products' }],
+        },
       },
       {
         path: 'products/create',
         component: () => import('pages/Products/CreatePage.vue'),
         name: 'CreateProduct',
-        meta: { requiresAuth: true },
+        meta: {
+          requiresAuth: true,
+          breadcrumb: [{ label: 'Products' }, { label: 'Create', to: 'products' }],
+        },
       },
       {
         path: 'products/:id',
         component: () => import('pages/Products/UpdatePage.vue'),
         name: 'UpdateProduct',
-        meta: { requiresAuth: true },
+        meta: {
+          requiresAuth: true,
+          breadcrumb: [{ label: 'Products' }, { label: 'Update', to: 'products' }],
+        },
       },
 
       // Subscriptions

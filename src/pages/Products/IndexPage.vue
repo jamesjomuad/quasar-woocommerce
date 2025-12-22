@@ -1,13 +1,7 @@
 <template>
   <q-page padding class="bg-surface">
-    <api-table
-      title="Products"
-      :rows="products"
-      :columns="columns"
-      :loading="loading"
-      @request="fetch"
-      @row-click="onRow"
-    >
+    <api-table title="Products" :rows="products" :columns="columns" :loading="loading" @request="fetch"
+      @row-click="onRow">
       <!-- Header -->
       <template v-slot:top-right="props">
         <div class="col">

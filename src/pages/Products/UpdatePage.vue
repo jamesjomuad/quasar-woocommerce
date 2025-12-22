@@ -1,3 +1,4 @@
+<!-- eslint-disable -->
 <template>
   <q-page padding class="bg-surface">
     <q-card flat bordered class="card-update">
@@ -10,98 +11,49 @@
           <div class="row q-col-gutter-md q-ma-sm">
             <!-- name -->
             <div class="col-12 col-md-6">
-              <q-input
-                v-model="form.name"
-                label="Name"
-                outlined
-                dense
-                :rules="[val => !!val || 'Name is required']"
-                name="name"
-              />
+              <q-input v-model="form.name" label="Name" outlined dense :rules="[val => !!val || 'Name is required']"
+                name="name" />
             </div>
 
             <!-- sku -->
             <div class="col-12 col-md-6">
-              <q-input
-                v-model="form.sku"
-                label="SKU"
-                outlined
-                dense
-                :rules="[val => !!val || 'SKU is required']"
-                name="sku"
-              />
+              <q-input v-model="form.sku" label="SKU" outlined dense :rules="[val => !!val || 'SKU is required']"
+                name="sku" />
             </div>
 
             <!-- description -->
             <div class="col-12">
-              <q-input
-                v-model="form.description"
-                label="Description"
-                type="textarea"
-                outlined
-                dense
-                name="description"
-              />
+              <q-input v-model="form.description" label="Description" type="textarea" outlined dense
+                name="description" />
             </div>
 
 
             <!-- cost -->
             <div class="col-12 col-md-6">
-              <q-input
-                v-model.number="form.cost"
-                label="Cost"
-                type="number"
-                outlined
-                dense
-                :rules="[val => val > 0 || 'Enter valid price']"
-                prefix="₱"
-                name="cost"
-              />
+              <q-input v-model.number="form.cost" label="Cost" type="number" outlined dense
+                :rules="[val => val > 0 || 'Enter valid price']" prefix="₱" name="cost" />
             </div>
 
             <!-- price -->
             <div class="col-12 col-md-6">
-              <q-input
-                v-model.number="form.price"
-                label="Price"
-                type="number"
-                outlined
-                dense
-                :rules="[val => val > 0 || 'Enter valid price']"
-                prefix="₱"
-                name="price"
-              />
+              <q-input v-model.number="form.price" label="Price" type="number" outlined dense
+                :rules="[val => val > 0 || 'Enter valid price']" prefix="₱" name="price" />
             </div>
 
             <!-- stock -->
             <div class="col-12 col-md-6">
-              <q-input
-                v-model.number="form.stock"
-                label="Stock"
-                type="number"
-                outlined
-                dense
-                :rules="[val => val >= 0 || 'Stock must be zero or more']"
-                name="stock"
-              />
+              <q-input v-model.number="form.stock" label="Stock" type="number" outlined dense
+                :rules="[val => val >= 0 || 'Stock must be zero or more']" name="stock" />
             </div>
 
             <!-- taxable -->
             <div class="col-12 col-md-6">
-              <q-toggle
-                v-model="form.taxable"
-                label="Taxable"
-                color="primary"
-              />
+              <q-toggle v-model="form.taxable" label="Taxable" color="primary" />
             </div>
 
             <!-- active -->
             <div class="col-12 col-md-6">
-              <q-toggle
-                v-model="form.active"
-                label="Active"
-                color="positive"
-              />
+              <q-toggle v-model="form.active" label="Active" color="positive" />
             </div>
           </div>
         </q-form>
@@ -171,21 +123,22 @@ watch(
 )
 
 const saveForm = async () => {
-  try {
-    const result = await window.api.product.update(route.params.id, form.value)
+  console.log('saveForm')
+  // try {
+  //   const result = await window.api.product.update(route.params.id, form.value)
 
-    if (result.error) {
-      throw new Error(result.error)
-    }
+  //   if (result.error) {
+  //     throw new Error(result.error)
+  //   }
 
-    console.log('Auto saving...', result)
-  } catch (err) {
-    console.error('Save failed:', err)
-    $q.notify({
-      type: 'negative',
-      message: err.message || 'Failed to save product',
-      position: 'bottom-right',
-    })
-  }
+  //   console.log('Auto saving...', result)
+  // } catch (err) {
+  //   console.error('Save failed:', err)
+  //   $q.notify({
+  //     type: 'negative',
+  //     message: err.message || 'Failed to save product',
+  //     position: 'bottom-right',
+  //   })
+  // }
 }
 </script>
