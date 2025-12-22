@@ -40,9 +40,9 @@
               <q-icon size="1.5em" name="chevron_right" color="primary" />
             </template>
 
-            <q-breadcrumbs-el label="Dashboard" icon="home" />
-            <q-breadcrumbs-el v-for="(item, key) in route.meta.breadcrumb" :key="key" :label="item.label"
-              icon="widgets" />
+            <q-breadcrumbs-el label="Dashboard" icon="home" to="/dashboard" />
+            <q-breadcrumbs-el v-for="(item, key) in route.meta.breadcrumb" :key="key" :label="item.label" :to="item?.to"
+              :icon="item?.icon" />
           </q-breadcrumbs>
         </q-toolbar>
       </q-page-sticky>

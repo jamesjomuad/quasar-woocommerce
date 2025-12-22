@@ -1,4 +1,4 @@
-import { app, BrowserWindow, protocol, net } from 'electron'
+import { app, BrowserWindow, ipcMain, protocol, net } from 'electron'
 import { fileURLToPath } from 'node:url'
 import { pathToFileURL } from 'url'
 import { connect } from './db/connect.js'
@@ -6,8 +6,7 @@ import { setupIPCHandlers } from './ipc/handlers.js'
 import fs from 'fs'
 import path from 'node:path'
 import os from 'node:os'
-import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
-
+import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform()
@@ -35,12 +34,13 @@ async function migrate(db) {
 }
 
 async function installVueDevtools() {
-  if (process.env.DEV) { // Only run in development mode
+  if (process.env.DEV) {
+    // Only run in development mode
     try {
-      const name = await installExtension(VUEJS_DEVTOOLS);
-      console.log(`✅ Added Extension: ${name}`);
+      const name = await installExtension(VUEJS_DEVTOOLS)
+      console.log(`✅ Added Extension: ${name}`)
     } catch (error) {
-      console.error('An error occurred installing Vue Devtools:', error);
+      console.error('An error occurred installing Vue Devtools:', error)
     }
   }
 }
@@ -62,6 +62,7 @@ async function createWindow() {
     icon: path.resolve(currentDir, 'icons/icon.png'), // tray icon
     width: 1000,
     height: 600,
+    frame: false,
     useContentSize: true,
     webPreferences: {
       nodeIntegration: false,
@@ -80,6 +81,10 @@ async function createWindow() {
   // Maximize on launch
   mainWindow.maximize()
   mainWindow.removeMenu()
+
+  ipcMain.on('win:close', () => {
+    mainWindow.close()
+  })
 
   if (process.env.DEV) {
     await mainWindow.loadURL(process.env.APP_URL)
@@ -130,7 +135,7 @@ async function createWindow() {
         ],
       },
     })
-})
+  })
 
   mainWindow.on('closed', () => {
     mainWindow = null
@@ -150,8 +155,8 @@ protocol.registerSchemesAsPrivileged([
       supportFetchAPI: true,
       bypassCSP: true, // Helps the renderer process trust the protocol
       corsEnabled: true,
-    }
-  }
+    },
+  },
 ])
 
 app.whenReady().then(async () => {

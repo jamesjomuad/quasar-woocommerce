@@ -1,6 +1,8 @@
 import { contextBridge, ipcRenderer } from 'electron'
 
 contextBridge.exposeInMainWorld('api', {
+  close: () => ipcRenderer.send('win:close'),
+
   // User
   user: {
     all: () => ipcRenderer.invoke('user:all'),
@@ -38,5 +40,5 @@ contextBridge.exposeInMainWorld('api', {
     forceDelete: (id) => ipcRenderer.invoke('media:forceDelete', id),
     bulkDelete: (ids) => ipcRenderer.invoke('media:bulkDelete', ids),
     getUploadsPath: () => ipcRenderer.invoke('media:getUploadsPath'),
-  }
+  },
 })

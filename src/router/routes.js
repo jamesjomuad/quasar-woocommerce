@@ -23,7 +23,7 @@ const routes = [
         name: 'Products',
         meta: {
           requiresAuth: true,
-          breadcrumb: [{ label: 'Products' }],
+          breadcrumb: [{ label: 'Products', icon: 'shopping_cart' }],
         },
       },
       {
@@ -32,7 +32,10 @@ const routes = [
         name: 'CreateProduct',
         meta: {
           requiresAuth: true,
-          breadcrumb: [{ label: 'Products' }, { label: 'Create', to: 'products' }],
+          breadcrumb: [
+            { label: 'Products', icon: 'shopping_cart', to: '/products' },
+            { label: 'Create', icon: 'mode_edit' },
+          ],
         },
       },
       {
@@ -41,7 +44,10 @@ const routes = [
         name: 'UpdateProduct',
         meta: {
           requiresAuth: true,
-          breadcrumb: [{ label: 'Products' }, { label: 'Update', to: 'products' }],
+          breadcrumb: [
+            { label: 'Products', icon: 'shopping_cart', to: '/products' },
+            { label: 'Update', icon: 'mode_edit' },
+          ],
         },
       },
 
@@ -50,13 +56,22 @@ const routes = [
         path: 'subscriptions',
         component: () => import('pages/Subscriptions/IndexPage.vue'),
         name: 'Subscriptions',
-        meta: { requiresAuth: true },
+        meta: {
+          requiresAuth: true,
+          breadcrumb: [{ label: 'Subscriptions', icon: 'rss_feed', to: '/subscriptions' }],
+        },
       },
       {
         path: 'subscriptions/create',
         component: () => import('pages/Subscriptions/CreatePage.vue'),
         name: 'CreateSubscription',
-        meta: { requiresAuth: true },
+        meta: {
+          requiresAuth: true,
+          breadcrumb: [
+            { label: 'Subscriptions', icon: 'rss_feed', to: '/subscriptions' },
+            { label: 'Create', icon: 'mode_edit' },
+          ],
+        },
       },
 
       // Payments
